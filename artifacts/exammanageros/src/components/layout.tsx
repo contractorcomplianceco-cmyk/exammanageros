@@ -61,16 +61,39 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         </nav>
       </div>
       <div className="p-4">
-        <div className="p-4 rounded-xl border border-border bg-card/50 shadow-sm">
-          <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">ComplianceConnect</h4>
-          <p className="text-sm font-medium mb-1">Atlantic Mechanical</p>
-          <div className="text-xs text-muted-foreground mb-3 space-y-1">
-            <p>• 2 Missing Items</p>
-            <p>• 1 Upcoming Exam</p>
+        <div className="relative rounded-2xl p-4 overflow-hidden bg-gradient-to-br from-[#07184A] via-[#3B2B8F] to-[#7C3AED] shadow-[0_12px_28px_-14px_rgba(124,58,237,0.6)]">
+          <div className="absolute -top-6 -right-6 w-24 h-24 bg-[#E633FF]/40 blur-2xl rounded-full pointer-events-none" />
+          <div className="absolute -bottom-8 -left-4 w-24 h-24 bg-[#38A3FF]/30 blur-2xl rounded-full pointer-events-none" />
+          <div className="relative z-10 text-white">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-white/60">Client Portal</p>
+                <p className="text-sm font-bold leading-tight">Atlantic Mechanical</p>
+              </div>
+              <div className="relative w-11 h-11 flex-shrink-0">
+                <svg className="w-full h-full -rotate-90" viewBox="0 0 44 44">
+                  <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="4" />
+                  <circle cx="22" cy="22" r="18" fill="none" stroke="#20C7C7" strokeWidth="4" strokeLinecap="round" strokeDasharray={2 * Math.PI * 18} strokeDashoffset={2 * Math.PI * 18 * (1 - 0.75)} />
+                </svg>
+                <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold">75%</span>
+              </div>
+            </div>
+            <div className="space-y-1.5 mb-3">
+              {[
+                { label: "Document Requests", value: 3 },
+                { label: "Missing Items", value: 2 },
+                { label: "Upcoming Exams", value: 4 },
+              ].map((row) => (
+                <div key={row.label} className="flex items-center justify-between text-[11px]">
+                  <span className="text-white/70">{row.label}</span>
+                  <span className="font-semibold bg-white/15 rounded-md px-1.5 py-0.5 backdrop-blur-sm">{row.value}</span>
+                </div>
+              ))}
+            </div>
+            <Link href="/compliance-connect" onClick={onNavigate}>
+              <Button size="sm" className="w-full text-xs font-semibold bg-white/95 text-[#07184A] hover:bg-white border-0 shadow-sm">Open Portal</Button>
+            </Link>
           </div>
-          <Link href="/compliance-connect" onClick={onNavigate}>
-            <Button variant="outline" size="sm" className="w-full text-xs font-medium bg-white">Open Portal</Button>
-          </Link>
         </div>
       </div>
     </div>

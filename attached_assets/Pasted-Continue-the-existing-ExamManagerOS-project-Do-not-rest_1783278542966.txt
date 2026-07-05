@@ -1,0 +1,510 @@
+Continue the existing ExamManagerOS project. Do not restart from scratch unless absolutely necessary. Use the attached screenshot as the CURRENT STATE and upgrade it to match the premium logo/dashboard mockups I provided.
+
+The current build is functional but too flat, too plain, and not finished enough. It needs more design polish, dimension, color, spacing, image/brand treatment, and completed sections. Keep the clean bright direction, but make it feel more premium, vibrant, dimensional, and presentation-ready.
+
+IMPORTANT DESIGN TARGET:
+Match this brand direction:
+- Bright, clean, pearl-white interface
+- Premium navy typography
+- Purple, magenta, royal blue, aqua, teal, coral, and lavender accents
+- Not dark-heavy
+- Not all purple
+- Elegant, polished, dimensional
+- Feminine executive energy, but still operational and professional
+- Luxury SaaS dashboard, not generic admin panel
+- Smooth shadows, soft glows, glass cards, gradient accents, refined spacing
+- Use the ExamManagerOS logo style: navy + magenta/purple/blue gradient “OS”
+- Use the tagline: “Manage. Prepare. Succeed.”
+
+CURRENT ISSUES TO FIX:
+1. The layout is too flat and plain.
+2. The cards need more color, gradients, shadows, and dimension.
+3. The hero area needs more polish, subtle abstract/floral/ribbon accents, and a premium background treatment.
+4. The KPI cards need stronger visual hierarchy and unique color accents.
+5. The right-side Exam Record panel is too compressed and should look more premium.
+6. The bottom dashboard sections are missing or incomplete.
+7. The table needs to feel more polished and less basic.
+8. The sidebar needs more depth and stronger brand treatment.
+9. The ComplianceConnect preview card is too basic and should look like a mini client portal card.
+10. The app should feel finished and ready to present.
+
+DO NOT:
+- Do not make it dark neon.
+- Do not make the entire UI purple.
+- Do not use yellow branding.
+- Do not use lorem ipsum.
+- Do not leave empty pages.
+- Do not imply real emails or integrations are active.
+- Do not expose real credentials.
+- Do not show internal notes in the ComplianceConnect client preview.
+- Do not remove existing functionality.
+
+GLOBAL DESIGN SYSTEM:
+Create or refine Tailwind/CSS variables for:
+
+Colors:
+- Navy: #07184A
+- Deep navy: #020B2D
+- Royal blue: #246BFE
+- Electric blue: #38A3FF
+- Violet: #7C3AED
+- Magenta: #E633FF
+- Rose pink: #FF4FA3
+- Soft coral: #FF7C7C
+- Orange/coral: #FF9A5C
+- Aqua: #20C7C7
+- Teal: #14B8A6
+- Lavender: #EEE7FF
+- Soft blue: #EAF3FF
+- Soft pink: #FFF0F8
+- Pearl white: #FFFFFF
+- App background: #F7FAFF
+
+Effects:
+- Large soft card shadow
+- Hover lift effect
+- Gradient borders
+- Glassmorphism panels
+- Subtle background glow
+- Card hover states
+- Smooth transitions
+- Polished pill badges
+
+Typography:
+Use a clean premium sans-serif for most UI.
+Use a small elegant script-style accent only for the hero line “Excellence is scheduled.” If no script font is available, use italic styling with a magenta gradient.
+
+ASSETS TO ADD:
+Create a public assets folder if it does not exist:
+
+/public/assets
+
+Use these assets if provided:
+- exammanageros-logo.png
+- exammanageros-icon.png
+- exammanageros-wordmark.png
+
+If the assets are not provided, create CSS/SVG-based replacements:
+1. Header logo icon:
+   - Hexagon mark
+   - Stylized E inside
+   - Navy, magenta, violet, blue gradient
+2. Wordmark:
+   - “ExamManager” in navy
+   - “OS” in magenta/violet/blue gradient
+   - Tiny tagline below: “Manage. Prepare. Succeed.”
+3. Decorative hero background:
+   - Soft pastel gradient waves
+   - Very subtle abstract leaves/petals/ribbon shapes
+   - No stock photos
+   - Keep it classy and subtle
+
+OPTIONAL IMAGE/GRAPHIC ASSETS TO CREATE WITH CSS OR SVG:
+- /public/assets/hero-orb.svg: soft pastel gradient orb/wave background
+- /public/assets/petal-accent.svg: tiny pink/lavender petal accents
+- /public/assets/portal-card-bg.svg: small gradient background for ComplianceConnect preview
+- /public/assets/empty-docs.svg: polished document illustration for DocCollect empty state
+- /public/assets/integration-flow.svg: small Zoho Books → QA → ExamManagerOS flow graphic
+
+PRIMARY APP SHELL:
+Keep the left sidebar, top header, main dashboard, and right detail panel.
+
+Top Header:
+Improve it to include:
+- Search input with icon and ⌘ K chip
+- Notification icon with badge
+- Email/draft icon with badge
+- Rose Taylor profile
+- Avatar initials RT with gradient background
+- Better vertical alignment and spacing
+
+Sidebar:
+Improve the sidebar so it looks closer to the mockup:
+- Add polished logo at top
+- Add subtle divider under logo
+- Active item should be a vibrant gradient pill with glow/shadow
+- Icons should be consistent size
+- Add badges for Exam Queue and Email Drafts
+- Add a premium ComplianceConnect preview card at the bottom
+- Add soft floral/gradient accent behind the portal preview card
+- Sidebar should feel dimensional, not flat
+
+Sidebar nav items:
+- Dashboard
+- Exam Queue
+- Records
+- Email Drafts
+- ComplianceConnect
+- DocCollect
+- Analytics
+- Settings
+
+Hero Section:
+Replace the plain hero with a premium hero card.
+Use this content:
+Good morning, Rose 👋
+Lead with clarity. Deliver with confidence.
+Excellence is scheduled.
+
+Hero style:
+- Pearl/lavender/soft-pink gradient background
+- Subtle abstract waves
+- Soft glow on the right
+- Small refined petal/ribbon accents
+- Rounded 28px corners
+- Large elegant headline
+- Better spacing
+- Shadow and border
+- No clutter
+
+KPI Cards:
+Upgrade all KPI cards to look like the mockup:
+- Rounded 22px cards
+- Soft gradient backgrounds
+- Unique accent colors per card
+- Colored icon square
+- Large metric number
+- Trend indicator
+- Hover lift animation
+- Subtle glass border
+
+Use these cards:
+1. Exams Needing Scheduling — 32 — ↑ 5 vs last 7 days — purple
+2. Exams Coming Up — 18 — ↑ 4 vs last 7 days — blue
+3. Missed Exams — 3 — ↑ 1 vs last 7 days — coral/red
+4. Approaching Deadlines — 21 — ↑ 6 vs last 7 days — orange/coral
+5. Client Not Responding — 14 — ↓ 2 vs last 7 days — aqua/teal
+6. Prep Not Delivered — 7 — ↑ 2 vs last 7 days — pink
+
+Exam Queue:
+Make the table card more polished:
+- Card should have rounded 24px corners
+- Soft shadow
+- Header row with title, badge, search, filters, export, and New Exam button
+- New Exam button should be pink/magenta/purple gradient
+- Table rows should have subtle hover background
+- Status pills should be vibrant and consistent
+- Owner avatars should be circular gradient chips
+- Keep table readable and bright
+
+Columns:
+- Client / Company
+- State
+- License / Application
+- Exam Type
+- Exam Status
+- Application Status
+- Scheduled Date
+- Deadline
+- Vendor
+- Owner
+
+Rows:
+Use these fake records:
+1. Blue Ridge Partners | TX | Asbestos Abatement | Project Management | Prep In Progress | Waiting on Exam | May 28, 2024 | Jun 05, 2024 | PSI | RT
+2. Summit Builders LLC | FL | General Contractor | Business & Finance | Waiting on Exam Date | In Progress | May 30, 2024 | Jun 08, 2024 | Pearson VUE | LK
+3. Pinnacle Mechanical | GA | Mechanical Contractor | Mechanical Trade | Scheduled | Approved | Jun 01, 2024 | Jun 10, 2024 | PSI | PS
+4. Lone Star Renovations | TX | Residential Builder | Contractor Law | Waiting on Prep Docs | Approved | Jun 02, 2024 | Jun 12, 2024 | PSI | TE
+5. Coastal Plumbing Pros | SC | Plumbing Contractor | Plumbing Trade | At Risk | In Review | Not Scheduled | May 19, 2024 | Pearson VUE | EL
+6. Imperial Industrial | OH | HVAC Contractor | HVAC Trade | Scheduled | Approved | May 24, 2024 | Jun 01, 2024 | PSI | ME
+7. Evergreen Roofing | TN | Roofing Contractor | Trade Knowledge | Prep In Progress | Waiting on Docs | May 26, 2024 | Jun 04, 2024 | PSI | KC
+8. Clearview Development | NC | General Contractor | Business & Finance | Waiting on Exam Date | In Progress | Jun 06, 2024 | Jun 16, 2024 | Pearson VUE | TE
+
+Status colors:
+- Scheduled: green
+- Approved: green
+- At Risk: coral/red
+- Waiting on Exam Date: orange
+- Prep In Progress: blue
+- Waiting on Prep Docs: lavender
+- Waiting on Docs: lavender
+- In Progress: teal
+- Pre-Approval Required: purple
+- Waiting on Client Date Preference: blue/purple
+- Waiting on Pass Sheet: pink/lavender
+- Failed: red
+- Retake Needed: orange/red
+
+Right-Side Exam Record Panel:
+The current panel is too plain. Upgrade it heavily.
+
+Use selected record:
+Pinnacle Mechanical
+Mechanical Contractor License
+Georgia
+Status: Scheduled
+
+Panel design:
+- Top header with blue/purple gradient background
+- White text on top gradient area
+- Green status pill
+- Tabs: Overview, Notes, History
+- Card sections inside
+- Timeline with colored dots
+- Next steps checklist
+- Open Full Record button with purple/pink/blue gradient
+- Make it feel like a premium inspector drawer
+- It must not clip or overflow awkwardly
+
+Content:
+Client Details:
+- Austin Reynolds
+- a.reynolds@pinnaclemech.com
+- (404) 555-4671
+
+Exam Details:
+- Status: Scheduled
+- Date / Time: Jun 01, 2024, 9:00 AM EDT
+- Exam: Mechanical Trade
+- Vendor: PSI
+- Confirmation #: 78634122
+
+Application Status:
+- Approved
+
+Timeline:
+- May 12, 2024 — Exam scheduled
+- May 18, 2024 — Prep docs submitted
+- May 24, 2024 — Payment confirmed
+- Jun 01, 2024 — Exam day
+
+Next Steps:
+- Confirm exam location
+- Send day-before reminder
+- Post-exam follow-up
+
+Lower Dashboard Widgets:
+Add the missing bottom widget row exactly like a finished premium dashboard.
+
+Create four cards:
+1. Activity Feed
+   - New exam scheduled for Blue Ridge Partners — 2m ago
+   - Prep documents received from Pinnacle Mechanical — 15m ago
+   - Email sent to Summit Builders LLC — 32m ago
+   - Payment confirmed from Coastal Plumbing Pros — 1h ago
+
+2. Strategic Focus
+   - Increase on-time exam rate — 92%
+   - Reduce client response time — 68%
+   - Improve prep delivery — 85%
+   - Expand vendor partnerships — 55%
+   Use progress bars with colorful accents.
+
+3. Team Pulse
+   - Team Capacity: 78%
+   - On Track: 26
+   - At Risk: 6
+   - Overloaded: 3
+   - Available: 5
+   Use a circular progress/ring chart if possible. If not, make a polished radial-style card with CSS.
+
+4. Pipeline Overview
+   - $2.48M total pipeline value
+   - ↑ 23% vs last month
+   - Show a small colorful line/area chart
+   - Qualification: $480K
+   - Proposal: $760K
+   - Negotiation: $820K
+   - Closed Won: $420K
+
+ComplianceConnect Preview:
+Upgrade the sidebar portal preview card to feel like a real mini client portal preview.
+
+Show:
+- ComplianceConnect
+- Atlantic Mechanical
+- Your compliance is on track
+- Document Requests: 3
+- Missing Items: 2
+- Upcoming Exams: 4
+- Open Portal button
+
+Make it:
+- Gradient background
+- Glass card
+- Slight 3D feel
+- Mini progress circle
+- Soft glow
+- Refined, not cartoonish
+
+FUNCTIONALITY TO COMPLETE:
+This must be clickable, not just pretty.
+
+Implement:
+- Sidebar active navigation states
+- Clicking rows updates selected Exam Record panel
+- Filters button opens a polished filter drawer/modal
+- New Exam button opens polished modal form
+- Export button shows a toast: “Prototype export generated”
+- Open Portal opens ComplianceConnect preview modal/page
+- Open Full Record opens full record modal/page
+- Email Drafts page exists and is styled
+- DocCollect page exists and is styled
+- ComplianceConnect page exists and is styled
+- Analytics page exists and is styled
+- Settings page exists and is styled
+
+Create or complete these pages:
+1. Dashboard
+2. Exam Queue
+3. Records
+4. Email Drafts
+5. ComplianceConnect
+6. DocCollect
+7. Analytics
+8. Settings
+
+Email Drafts Page:
+Show polished draft center:
+- Draft email list
+- Client name
+- Exam record
+- Draft type
+- Status
+- Edit button
+- Approve button
+- Send Placeholder button
+- Notice: “Prototype only. No real email is sent.”
+
+Draft types:
+- Welcome / exam scheduling started
+- Exam information
+- Exam prep delivery
+- Date preference request
+- Scheduled exam confirmation
+- Reminder
+- Deadline alert
+- Missing response follow-up
+- Pass sheet request
+- Failed exam / retake next steps
+
+DocCollect Page:
+Show document panels:
+- Required files
+- Uploaded files
+- Pass sheet status
+- Approval letter status
+- Exam confirmation status
+- Failed score sheet status
+- Missing document indicators
+- Shared folder status
+- Pass sheet required before completion
+
+AuditEngine / Analytics Page:
+Show rule placeholders:
+- Required exams
+- Pre-approval requirement
+- Deadline
+- Vendor
+- Cost
+- Passing score
+- Retest rule
+- Waiting period
+- Pass sheet requirement
+
+Integration Placeholder Cards:
+Add a polished integration area somewhere on Dashboard or Settings:
+Zoho Books:
+- Invoice Paid trigger
+- Exam Scheduling item detected
+- Record created
+- QA queue created
+- Default owner: Skylar
+
+AuditEngine:
+- Future connection
+- Pulls requirements, vendors, costs, deadlines, passing requirements, retest rules, pass sheet rules
+
+ComplianceConnect:
+- Client-facing exam visibility
+- Internal notes hidden
+
+DocCollect:
+- Shared document folder
+- Pass sheet upload
+- Application Processing notification
+
+CORE BUSINESS RULES:
+One ExamManagerOS record per license/application.
+A license/application may have multiple exams, usually two exams for the same person.
+Default owner for new exam records: Skylar.
+When Zoho Books invoice is paid and includes Exam Scheduling item number, create exam record and route to QA.
+
+Exam and application statuses must remain separate.
+
+Exam statuses:
+- New / Invoice Paid
+- Needs Review
+- Pre-Approval Required
+- Waiting for Board Approval
+- Ready to Schedule
+- Waiting on Client Date Preference
+- Scheduled
+- Exam Coming Up
+- Waiting on Pass Sheet
+- Passed
+- Failed
+- Retake Needed
+- Complete
+- At Risk
+- Canceled / No Show
+
+Application statuses:
+- Not Started
+- Waiting on Exam
+- Waiting on Pre-Approval
+- Ready for Application Processing
+- Application Processing Updated
+- Blocked
+- Complete
+
+Email rules:
+All client emails come from EXAMS@CCACONTACT.COM.
+Emails are draft-first, not auto-sent.
+Do not send real emails.
+
+Urgent rules:
+Flag urgent when:
+- Deadline is within 10 days
+- Client is not responding
+- Paid exam prep has not been delivered
+- Exam vendor issue exists
+- Exam was missed
+- Exam failed
+- Retake rules need confirmation
+- Pass sheet is missing after exam date
+
+RESPONSIVENESS:
+Fix responsive behavior.
+Desktop:
+- Sidebar fixed
+- Header fixed or sticky
+- Right panel visible
+- Content should not clip
+
+Tablet:
+- Sidebar collapses
+- Right panel becomes drawer
+
+Mobile:
+- Sidebar becomes drawer
+- Table becomes responsive cards
+- Right-side record panel opens as modal/drawer
+- No clipping or horizontal overflow
+
+FINAL ACCEPTANCE CHECK:
+Before finishing, verify:
+- Dashboard looks significantly closer to the premium mockup
+- It is brighter, more colorful, more dimensional, and more polished than the current screenshot
+- Logo area looks professional
+- Hero section is upgraded
+- KPI cards are colorful and dimensional
+- Table is polished
+- Right record panel is premium
+- Lower widgets exist
+- All nav pages exist and are styled
+- Main buttons and interactions work
+- No blank pages
+- No lorem ipsum
+- No real emails/integrations
+- No mobile clipping
