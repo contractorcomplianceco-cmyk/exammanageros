@@ -13,7 +13,7 @@ import {
   Search,
   Menu
 } from "lucide-react";
-import logoPath from "@assets/ChatGPT_Image_Jul_5,_2026,_01_09_13_PM_1783272973972.png";
+import logoPath from "@assets/ExamManagerOS_1783275986154.png";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -37,7 +37,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
     <div className="flex flex-col justify-between h-full">
       <div>
         <div className="h-16 flex items-center px-6 border-b border-border">
-          <img src={logoPath} alt="ExamManagerOS Logo" className="h-8 object-contain" />
+          <img src={logoPath} alt="ExamManagerOS Logo" className="h-9 object-contain" />
         </div>
         <nav className="p-4 space-y-1">
           {NAV_ITEMS.map((item) => {
