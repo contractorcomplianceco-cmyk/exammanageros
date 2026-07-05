@@ -1,0 +1,845 @@
+You are auditing an internal CCA / RoseOS application called:
+
+ExamsManagerOS
+
+Your job is to perform a complete product, workflow, architecture, UI/UX, data, automation, and integration audit to determine whether ExamsManagerOS has everything it needs to function as a serious internal exam-management operating system for Contractor Compliance Authority.
+
+Do not rebuild the app unless explicitly asked. First audit it. Identify what exists, what is missing, what is incomplete, what is fake/nonfunctional, what is risky, and what should be added before this can be considered ready for internal use.
+
+This app should support CCA’s licensing and compliance operations where exams, qualifiers, study prep, exam eligibility, exam scheduling, passed exams, transcripts, reciprocity dependencies, and board/application readiness are critical blockers.
+
+The audit must be detailed, honest, and practical.
+
+---
+
+## 1. Core Product Definition to Audit Against
+
+ExamsManagerOS should be a RoseOS ecosystem app that manages exam-related workflows for contractor licensing and compliance matters.
+
+It should help CCA track:
+
+- Clients who require exams
+- Qualifiers / individuals taking exams
+- License applications waiting on exams
+- Exam type required
+- Jurisdiction/state
+- Board or agency requirement
+- Exam provider
+- Eligibility requirements
+- Study/prep status
+- Exam registration status
+- Scheduled exam date
+- Exam result
+- Transcript/certification status
+- Reciprocity dependency
+- Client communication
+- Internal follow-up cadence
+- Risk, blockers, and escalation items
+
+The app should make it immediately clear:
+
+- Who needs to take an exam
+- What exam is required
+- Why the exam matters
+- Which application(s) are blocked by the exam
+- Whether the person is eligible to schedule
+- Whether study materials were sent
+- Whether the exam is scheduled
+- Whether the exam was passed
+- Whether the transcript was ordered
+- Whether the transcript was received
+- Which states/applications can proceed after the exam result
+- Who owns the next action
+- What is overdue or at risk
+
+---
+
+## 2. RoseOS Ecosystem Placement
+
+Audit whether the app clearly positions itself inside the RoseOS ecosystem.
+
+Expected ecosystem relationship:
+
+RoseOS
+- Company-wide operating system
+- Leadership visibility layer
+- Department app hub
+- Automation governance layer
+- Source-of-truth coordination layer
+- Internal workflow command center
+
+ExamsManagerOS
+- RoseOS specialized exam-management app
+- Tracks exam requirements, scheduling, readiness, results, transcripts, and blocked applications
+- Supports licensing, qualifier, and application-processing workflows
+- Feeds risk, blockers, and next actions into RoseOS / Command Center visibility
+
+Connected or future-connected systems:
+
+Doc Collection
+- Source for exam-related documents, IDs, authorization letters, board notices, score reports, transcripts, study receipts, and uploaded exam documentation
+
+Application Processing / Licensing Workflow
+- Source or destination for applications blocked by exam requirements
+
+ComplianceConnect
+- Client-facing visibility layer for approved client-safe exam status updates
+
+Zoho / CRM
+- Future source of truth for client, account, contact, application, qualifier, and service engagement records
+
+WorkDrive
+- Storage layer for exam-related documents, score reports, transcripts, receipts, and board correspondence
+
+Command Center / RoseOS
+- Leadership view for high-risk exam blockers, overdue follow-ups, and application dependencies
+
+Audit whether these ecosystem boundaries are clear and whether the app avoids becoming a duplicate source of truth.
+
+---
+
+## 3. Required Main Screens
+
+Audit whether the app has the following screens or equivalent functionality.
+
+### A. Exams Dashboard / Command Desk
+
+The default screen should show an operational overview, not a marketing page.
+
+Required metrics:
+
+- Exams required
+- Exams not scheduled
+- Exams scheduled
+- Exams passed
+- Exams failed / retake needed
+- Transcripts pending
+- Applications blocked by exam
+- High-risk exam blockers
+- Overdue follow-ups
+- Clients waiting on qualifier action
+- Study/prep not confirmed
+
+Required dashboard sections:
+
+- Priority Exam Queue
+- Upcoming Exam Dates
+- Applications Blocked by Exam
+- Transcript / Score Report Follow-Ups
+- Study Readiness Follow-Ups
+- High-Risk Exam Issues
+- Recent Exam Activity
+- Client Updates Awaiting Review
+
+Audit whether each metric is clickable and routes to a filtered view.
+
+### B. Exam Queue
+
+The app should include a complete exam queue.
+
+Each row should show:
+
+- Client / account
+- Qualifier / exam candidate
+- Application or license connected to the exam
+- State / jurisdiction
+- Board / agency
+- Exam name
+- Exam provider
+- Exam status
+- Eligibility status
+- Study/prep status
+- Registration status
+- Scheduled date
+- Result status
+- Transcript status
+- Owner
+- Next action
+- Due date
+- Risk level
+
+Required filters:
+
+- All
+- Exam required
+- Eligibility not confirmed
+- Not scheduled
+- Scheduled
+- Passed
+- Failed / retake needed
+- Transcript pending
+- Transcript ordered
+- Transcript received
+- Application blocked
+- High risk
+- Overdue
+- Ready for application next step
+- Closed
+
+Audit whether filters work and whether rows open a detail screen.
+
+### C. Exam Detail Workspace
+
+Each exam record should open a detailed workspace.
+
+Required header:
+
+- Client
+- Qualifier / candidate
+- Exam name
+- State / jurisdiction
+- Board / agency
+- Provider
+- Status chip
+- Risk chip
+- Owner
+- Scheduled date
+- Related application(s)
+- Related Doc Collection packet
+- Related ComplianceConnect client record
+- Protected Preview / Sync-ready label if applicable
+
+Required tabs:
+
+1. Overview
+2. Eligibility & Requirements
+3. Study / Prep
+4. Scheduling & Registration
+5. Results & Transcripts
+6. Related Applications
+7. Client Updates
+8. Tasks & Escalations
+9. Audit History
+
+Audit whether all tabs exist or whether equivalent sections exist.
+
+---
+
+## 4. Required Detail Tab Functionality
+
+### Tab 1: Overview
+
+Required fields:
+
+- Current exam status
+- Candidate / qualifier name
+- Client/account
+- Related service/application
+- Exam name
+- Exam type/category
+- State/jurisdiction
+- Board/agency
+- Exam provider
+- Next action
+- Next due date
+- Owner
+- Reviewer
+- Current blocker
+- Risk level
+- Application dependency
+- Client-visible status
+- Internal notes
+
+Required status options:
+
+- Exam required
+- Eligibility under review
+- Eligible to schedule
+- Study materials sent
+- Study readiness pending
+- Ready to schedule
+- Scheduled
+- Completed - result pending
+- Passed
+- Failed - retake needed
+- Transcript needs to be ordered
+- Transcript ordered
+- Transcript received
+- Application unblocked
+- Closed
+- Escalated
+
+Audit whether status changes persist and create audit events.
+
+### Tab 2: Eligibility & Requirements
+
+The app should track whether the candidate is actually eligible to take the exam.
+
+Required fields:
+
+- Eligibility confirmed yes/no/unknown
+- Eligibility source
+- Board requirement summary
+- Required prerequisites
+- Required ID
+- Required authorization
+- Required approval to test
+- Required application before exam
+- Required experience verification
+- Required fee/payment
+- Required provider account
+- Candidate information complete
+- Name match verified
+- Deadline to schedule
+- Eligibility expiration date
+- Notes
+
+Required actions:
+
+- Mark eligibility confirmed
+- Add eligibility issue
+- Create missing item task
+- Request missing candidate info
+- Link board/source note
+- Attach eligibility document placeholder
+
+Audit whether the app prevents an exam from being marked “Ready to schedule” if eligibility is not confirmed, or at least warns the user.
+
+### Tab 3: Study / Prep
+
+Required fields:
+
+- Study materials required yes/no
+- Study materials ordered
+- Study materials received by candidate
+- Study provider
+- Prep course status
+- Candidate readiness confirmed
+- Practice exam completed
+- Internal readiness note
+- Client/candidate follow-up needed
+- Follow-up due date
+
+Required actions:
+
+- Mark study materials sent
+- Confirm materials received
+- Confirm exam-ready
+- Create study follow-up
+- Flag candidate not ready
+- Draft candidate/client reminder
+
+Audit whether study/prep status is tracked clearly enough to prevent “we forgot to confirm readiness.”
+
+### Tab 4: Scheduling & Registration
+
+Required fields:
+
+- Exam provider
+- Provider account created
+- Registration status
+- Registration date
+- Scheduled exam date
+- Scheduled exam time
+- Testing location or online
+- Confirmation number
+- Payment/fee status
+- Reschedule deadline
+- Cancellation deadline
+- Retake waiting period
+- Candidate received confirmation
+- Internal owner
+
+Required actions:
+
+- Mark registration started
+- Mark scheduled
+- Add confirmation number
+- Add/reschedule exam date
+- Create reminder
+- Flag scheduling issue
+- Create retake plan
+
+Audit whether upcoming exams appear on the dashboard and whether overdue unscheduled exams are flagged.
+
+### Tab 5: Results & Transcripts
+
+This is critical.
+
+Required fields:
+
+- Exam completed date
+- Result status
+- Score/pass proof uploaded
+- Score report received
+- Transcript required yes/no
+- Official transcript ordered
+- Transcript ordered date
+- Transcript provider
+- Transcript delivery method
+- Transcript sent to state/board
+- Transcript received by board
+- Transcript confirmation
+- Transcript follow-up due date
+- Result affects reciprocity yes/no
+- Retake needed yes/no
+- Retake eligible date
+- Notes
+
+Required statuses:
+
+- Result pending
+- Passed
+- Failed
+- Transcript not required
+- Transcript needs to be ordered
+- Transcript ordered
+- Transcript sent
+- Transcript received
+- Transcript issue
+- Retake required
+
+Required actions:
+
+- Mark passed
+- Mark failed
+- Request score report
+- Ask client/candidate to order transcript
+- Mark transcript ordered
+- Mark transcript received
+- Create transcript follow-up
+- Create retake task
+- Unblock related applications
+
+Audit whether transcript tracking is strong enough, especially for exams like NASCLA where the transcript can block reciprocity applications.
+
+### Tab 6: Related Applications
+
+The app must show which applications are blocked by the exam.
+
+Required fields:
+
+- Application ID
+- Client/account
+- State
+- License classification
+- Application status
+- Dependency type
+- Blocked by exam yes/no
+- Blocked by transcript yes/no
+- What can proceed after pass
+- What can proceed after transcript
+- Owner
+- Next step after exam completion
+
+Required actions:
+
+- Link application
+- Mark application unblocked
+- Create application follow-up
+- Notify Application Processing owner
+- Add RoseOS/Command Center blocker note
+
+Audit whether the app clearly shows downstream impact.
+
+Example dependency logic:
+- Virginia, Maryland, and Ohio reciprocity applications may all be waiting on a passed NASCLA exam and official transcript.
+- The app should make these dependencies visible.
+
+### Tab 7: Client Updates
+
+The app should support client-safe communication, not uncontrolled messaging.
+
+Required fields:
+
+- Current internal exam status
+- Current client-visible status
+- Draft client update
+- Approved client update
+- Reviewer
+- Reviewed date
+- Publish readiness
+- ComplianceConnect sync status
+
+Client-visible status options:
+
+- Exam requirement under review
+- Exam eligibility being confirmed
+- Study/prep in progress
+- Exam ready to schedule
+- Exam scheduled
+- Exam completed - result pending
+- Exam passed
+- Transcript pending
+- Transcript ordered
+- Transcript received
+- Application can proceed
+- Retake planning required
+- Internal review needed before client update
+
+Required actions:
+
+- Draft client update
+- Submit for review
+- Approve for ComplianceConnect preview
+- Hold client update
+- Return for edit
+
+Audit whether the app avoids auto-publishing client-facing language.
+
+### Tab 8: Tasks & Escalations
+
+Required task types:
+
+- Confirm exam requirement
+- Confirm eligibility
+- Send study materials
+- Confirm candidate readiness
+- Register for exam
+- Confirm scheduled date
+- Follow up before exam
+- Request score report
+- Ask client/candidate to order transcript
+- Confirm transcript sent
+- Confirm transcript received
+- Create retake plan
+- Notify application owner
+- Update ComplianceConnect draft
+- Escalate to Rose
+- Escalate to department lead
+- Escalate to licensing strategist
+
+Required escalation fields:
+
+- Escalation reason
+- Severity
+- Owner
+- Due date
+- Decision needed
+- Client-facing risk
+- Application-blocking risk
+- Agency/board-facing risk
+- Notes
+
+Audit whether task ownership and overdue items are clear.
+
+### Tab 9: Audit History
+
+Every meaningful action should create an audit row.
+
+Audit event fields:
+
+- Timestamp
+- User
+- Action
+- Record type
+- Previous value
+- New value
+- Client-visible yes/no
+- Application-impacting yes/no
+- AI-assisted yes/no
+- Related record
+
+Audit actions should include:
+
+- Exam status changed
+- Eligibility confirmed
+- Study materials sent
+- Exam scheduled
+- Exam rescheduled
+- Exam passed
+- Exam failed
+- Transcript requested
+- Transcript ordered
+- Transcript received
+- Application unblocked
+- Client update drafted
+- Client update approved
+- Task created
+- Escalation created
+- Note added
+
+Audit whether this exists and whether it is actually updated by user actions.
+
+---
+
+## 5. Data Model Audit
+
+Inspect the code and determine whether the data model includes the right objects.
+
+Required objects:
+
+- Client
+- Qualifier / Exam Candidate
+- Exam Record
+- Exam Requirement
+- Exam Provider
+- Related Application
+- Transcript Record
+- Study / Prep Record
+- Task
+- Escalation
+- Client Update Draft
+- Audit Event
+- Document Attachment Placeholder
+- Board / Agency Requirement
+
+Minimum required fields for Exam Record:
+
+- id
+- clientId
+- candidateId
+- relatedApplicationIds
+- examName
+- examType
+- jurisdiction
+- boardAgency
+- provider
+- status
+- eligibilityStatus
+- studyStatus
+- registrationStatus
+- scheduledDate
+- completedDate
+- resultStatus
+- transcriptStatus
+- transcriptRequired
+- applicationBlocked
+- owner
+- reviewer
+- nextAction
+- dueDate
+- riskLevel
+- blocker
+- clientVisibleStatus
+- createdAt
+- updatedAt
+
+Audit whether records persist after refresh if this is a prototype.
+
+---
+
+## 6. Automation Audit
+
+Identify whether safe automations exist or should exist.
+
+Safe internal automations:
+
+- Flag exam not scheduled after eligibility confirmed
+- Flag study readiness not confirmed before scheduled exam
+- Remind owner before scheduled exam date
+- Create follow-up when result is pending after exam date
+- Create transcript task after exam marked passed
+- Flag transcript not ordered after pass
+- Flag transcript pending too long
+- Mark related applications as potentially unblocked after transcript received
+- Create client update draft after major milestone
+- Add RoseOS/Command Center blocker item for high-risk exam delays
+- Alert owner when retake is required
+
+Human review required:
+
+- Sending client/candidate messages
+- Publishing ComplianceConnect updates
+- Updating official CRM/Zoho records
+- Marking application officially unblocked
+- Making exam eligibility determinations
+- Making legal/compliance conclusions
+- Telling client an application will be approved
+- Guaranteeing timelines
+- Sending agency/board communications
+
+Audit whether the app clearly separates safe internal automation from human-reviewed external actions.
+
+---
+
+## 7. UI / UX Audit
+
+Evaluate whether the app feels like a polished CCA / RoseOS internal app.
+
+Audit for:
+
+- Clear first screen
+- No landing page
+- Executive dashboard feel
+- Fast understanding of risk and next actions
+- Clear status chips
+- Clear ownership
+- Clear deadlines
+- Clear blockers
+- Clickable rows
+- Working filters
+- Working search
+- Working modals/forms
+- No dead buttons
+- No text overlap
+- Mobile/tablet responsiveness
+- Consistent spacing
+- Consistent colors
+- Professional internal operations feel
+
+If the current app has dark/navy styling, determine whether it matches the intended RoseOS ecosystem or whether it should be bright, clean, and operational.
+
+---
+
+## 8. Integration Readiness Audit
+
+Audit whether the app is ready to connect to:
+
+### Doc Collection
+
+Expected integration needs:
+
+- Pull candidate documents
+- Pull score reports
+- Pull study material receipts
+- Pull transcript confirmations
+- Pull board notices
+- Show missing documents
+- Create draft document requests
+
+### ComplianceConnect
+
+Expected integration needs:
+
+- Send approved client-safe exam status
+- Show exam status milestones
+- Show client next steps
+- Avoid exposing internal risk notes
+- Require approval before publishing
+
+### Zoho / CRM
+
+Expected integration needs:
+
+- Link client/account
+- Link contact/candidate
+- Link deal/service engagement
+- Link application processing record
+- Link qualifier profile
+- Update only after approved field mapping
+
+### WorkDrive
+
+Expected integration needs:
+
+- Link exam folders
+- Store score reports
+- Store transcripts
+- Store receipts
+- Store confirmation notices
+
+### RoseOS / Command Center
+
+Expected integration needs:
+
+- Surface high-risk exam blockers
+- Surface overdue transcript follow-ups
+- Surface applications blocked by exam
+- Surface owner workload
+- Surface upcoming critical exam dates
+
+Audit whether current labels are honest:
+- Use “sync-ready preview” if not connected
+- Do not claim live integration if none exists
+
+---
+
+## 9. Risk and Compliance Audit
+
+Check for unsafe or misleading language.
+
+The app must not imply:
+
+- Exams are guaranteed to be passed
+- Board approval is guaranteed
+- Application approval is guaranteed
+- Timelines are guaranteed
+- CCA can control agency/board processing
+- Legal advice has been given
+- Official agency submission happened if it did not
+- Client-facing updates were published if only created locally
+- CRM/Zoho was updated if it was not
+
+Preferred safe language:
+
+- Draft created
+- Human review required
+- Ready for review
+- Pending agency/board confirmation
+- Pending candidate action
+- Pending transcript confirmation
+- Local preview only
+- Sync-ready
+- External sending disabled in this build
+
+---
+
+## 10. Required Output Format
+
+After auditing, return the findings in this exact structure:
+
+# ExamsManagerOS Audit Report
+
+## Executive Summary
+Give a direct summary of whether ExamsManagerOS is ready, partially ready, or not ready.
+
+## Overall Readiness Score
+Score from 0 to 100.
+
+Use this scoring:
+- 90-100: Ready for internal pilot
+- 75-89: Strong but needs cleanup
+- 60-74: Useful prototype, missing key workflows
+- 40-59: Concept exists but not operationally ready
+- 0-39: Mostly incomplete or cosmetic
+
+## What Already Works
+List working areas with evidence from the app/code.
+
+## Critical Missing Items
+List anything that must be added before internal use.
+
+## Workflow Gaps
+Cover exam requirement, eligibility, scheduling, results, transcripts, blocked applications, client updates, and escalations.
+
+## Data Model Gaps
+List missing objects, fields, relationships, or persistence issues.
+
+## UI / UX Gaps
+List design, navigation, responsiveness, readability, and usability issues.
+
+## Automation Gaps
+List safe automations missing and human-review boundaries missing.
+
+## Integration Gaps
+Break down by:
+- Doc Collection
+- ComplianceConnect
+- Zoho / CRM
+- WorkDrive
+- RoseOS / Command Center
+
+## Compliance / Safety Risks
+List any language or behavior that creates risk.
+
+## Dead Buttons / Fake Functionality
+Identify buttons, links, forms, filters, or screens that appear functional but do not work.
+
+## Recommended Build Fixes
+Prioritize into:
+1. Must fix now
+2. Should fix before pilot
+3. Nice to have later
+
+## Suggested Revised Architecture
+Give a better structure if needed.
+
+## Suggested Screen List
+Give the final recommended screen/sidebar structure.
+
+## Suggested Data Objects
+Give the final recommended data model.
+
+## Acceptance Tests
+Provide a checklist the app must pass before Rose reviews it.
+
+## Final Recommendation
+Give a plain-English recommendation:
+- approve for internal testing
+- fix before testing
+- rebuild workflow
+- needs architecture review
+- needs integration planning
+
+Be direct, specific, and do not sugarcoat missing functionality.
