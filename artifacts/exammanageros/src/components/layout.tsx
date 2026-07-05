@@ -36,8 +36,8 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex flex-col justify-between h-full">
       <div>
-        <div className="h-16 flex items-center px-6 border-b border-border">
-          <img src={logoPath} alt="ExamManagerOS Logo" className="h-9 object-contain" />
+        <div className="flex items-center px-4 py-5 border-b border-border">
+          <img src={logoPath} alt="ExamManagerOS Logo" className="w-full max-w-[200px] object-contain" />
         </div>
         <nav className="p-4 space-y-1">
           {NAV_ITEMS.map((item) => {
