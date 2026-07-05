@@ -1,18 +1,24 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { AppLayout } from "@/components/layout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MOCK_EXAM_QUEUE, type ExamRow } from "@/data/mock-data";
+import { MOCK_EXAM_QUEUE, EXAM_STATUSES, STATES, VENDORS, OWNERS, type ExamRow } from "@/data/mock-data";
 import { getStatusColor } from "@/lib/status";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetFooter } from "@/components/ui/sheet";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
+import { useToast } from "@/hooks/use-toast";
+import heroFloral from "@assets/hero-floral.png";
 import {
   Filter, Download, Plus, ArrowUpRight, TrendingUp, TrendingDown, AlertCircle, Clock,
-  CalendarDays, UserX, FileWarning, ListTodo, Search, CheckCircle2, Circle,
-  Mail, FileCheck, CreditCard, CalendarCheck, ExternalLink, Zap, Pencil,
+  CalendarDays, UserX, FileWarning, ListTodo, Search, CheckCircle2, Circle, X,
+  Mail, FileCheck, CreditCard, CalendarCheck, ExternalLink, Zap, Pencil, MapPin,
 } from "lucide-react";
 
 const KPIS = [
@@ -25,13 +31,8 @@ const KPIS = [
 ];
 
 const pipelineData = [
-  { name: "Wk1", value: 320 },
-  { name: "Wk2", value: 480 },
-  { name: "Wk3", value: 420 },
-  { name: "Wk4", value: 640 },
-  { name: "Wk5", value: 580 },
-  { name: "Wk6", value: 760 },
-  { name: "Wk7", value: 820 },
+  { name: "Wk1", value: 320 }, { name: "Wk2", value: 480 }, { name: "Wk3", value: 420 },
+  { name: "Wk4", value: 640 }, { name: "Wk5", value: 580 }, { name: "Wk6", value: 760 }, { name: "Wk7", value: 820 },
 ];
 
 const pipelineStages = [
@@ -57,21 +58,40 @@ const strategicFocus = [
 
 function ownerGradient(owner: string) {
   const map: Record<string, string> = {
-    RT: "from-[#246BFE] to-[#E633FF]",
-    LK: "from-[#7C3AED] to-[#38A3FF]",
-    PS: "from-[#FF4FA3] to-[#7C3AED]",
-    TE: "from-[#20C7C7] to-[#246BFE]",
-    EL: "from-[#FF9A5C] to-[#FF4FA3]",
-    ME: "from-[#38A3FF] to-[#20C7C7]",
+    RT: "from-[#246BFE] to-[#E633FF]", LK: "from-[#7C3AED] to-[#38A3FF]", PS: "from-[#FF4FA3] to-[#7C3AED]",
+    TE: "from-[#20C7C7] to-[#246BFE]", EL: "from-[#FF9A5C] to-[#FF4FA3]", ME: "from-[#38A3FF] to-[#20C7C7]",
     KC: "from-[#E633FF] to-[#FF4FA3]",
   };
   return map[owner] ?? "from-[#246BFE] to-[#7C3AED]";
 }
 
 export default function Dashboard() {
+  const { toast } = useToast();
   const [selected, setSelected] = useState<ExamRow>(
     MOCK_EXAM_QUEUE.find((r) => r.client === "Pinnacle Mechanical") ?? MOCK_EXAM_QUEUE[0]
   );
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [stateFilter, setStateFilter] = useState("all");
+  const [newExamOpen, setNewExamOpen] = useState(false);
+  const [fullRecordOpen, setFullRecordOpen] = useState(false);
+
+  const filtered = useMemo(() => {
+    return MOCK_EXAM_QUEUE.filter((row) => {
+      const matchesSearch =
+        !search ||
+        row.client.toLowerCase().includes(search.toLowerCase()) ||
+        row.contact.toLowerCase().includes(search.toLowerCase()) ||
+        row.license.toLowerCase().includes(search.toLowerCase());
+      const matchesStatus = statusFilter === "all" || row.status === statusFilter;
+      const matchesState = stateFilter === "all" || row.state === stateFilter;
+      return matchesSearch && matchesStatus && matchesState;
+    });
+  }, [search, statusFilter, stateFilter]);
+
+  const activeFilters = [statusFilter !== "all", stateFilter !== "all"].filter(Boolean).length;
+  const rowStatuses = Array.from(new Set(MOCK_EXAM_QUEUE.map((r) => r.status)));
+  const dateTime = selected.scheduledDate === "Not Scheduled" ? "Not Scheduled" : `${selected.scheduledDate}, 9:00 AM EDT`;
 
   const capacity = 78;
   const ringCirc = 2 * Math.PI * 40;
@@ -82,10 +102,14 @@ export default function Dashboard() {
 
         {/* Hero */}
         <div className="relative rounded-[28px] overflow-hidden bg-gradient-to-br from-white via-[#FBF4FF] to-[#EEE7FF] p-6 sm:p-9 border border-white shadow-[0_10px_40px_-12px_rgba(124,58,237,0.25)]">
-          <div className="absolute top-0 right-0 -translate-y-1/3 translate-x-1/4 w-[28rem] h-[28rem] bg-[#FF4FA3]/15 blur-[90px] rounded-full pointer-events-none" />
-          <div className="absolute bottom-0 right-1/4 translate-y-1/2 w-72 h-72 bg-[#38A3FF]/15 blur-[80px] rounded-full pointer-events-none" />
-          <div className="absolute top-6 right-10 w-24 h-24 rounded-[40%_60%_60%_40%/50%_40%_60%_50%] bg-gradient-to-br from-[#FF4FA3]/20 to-[#7C3AED]/10 blur-md rotate-12 pointer-events-none hidden sm:block" />
-          <div className="absolute bottom-4 right-40 w-16 h-16 rounded-[50%_50%_40%_60%/60%_40%_60%_40%] bg-gradient-to-br from-[#38A3FF]/25 to-[#20C7C7]/10 blur-sm pointer-events-none hidden lg:block" />
+          <div className="absolute top-0 right-0 -translate-y-1/3 translate-x-1/4 w-[28rem] h-[28rem] bg-[#FF4FA3]/12 blur-[90px] rounded-full pointer-events-none" />
+          <div className="absolute bottom-0 right-1/4 translate-y-1/2 w-72 h-72 bg-[#38A3FF]/12 blur-[80px] rounded-full pointer-events-none" />
+          <img
+            src={heroFloral}
+            alt=""
+            aria-hidden="true"
+            className="absolute -top-6 -right-8 w-64 sm:w-80 lg:w-[26rem] opacity-70 mix-blend-multiply pointer-events-none select-none"
+          />
 
           <div className="relative z-10">
             <p className="text-sm font-semibold text-[#7C3AED] mb-3 tracking-wide">Good morning, Rose 👋</p>
@@ -107,18 +131,14 @@ export default function Dashboard() {
               data-testid={`card-kpi-${k.label.toLowerCase().replace(/[^a-z]+/g, "-")}`}
             >
               <CardContent className="p-4 sm:p-5">
-                <div
-                  className={`w-9 h-9 rounded-xl flex items-center justify-center mb-3 ring-4 ${k.ring} shadow-sm`}
-                  style={{ backgroundColor: `${k.hex}1a`, color: k.hex }}
-                >
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center mb-3 ring-4 ${k.ring} shadow-sm`} style={{ backgroundColor: `${k.hex}1a`, color: k.hex }}>
                   <k.icon className="h-[18px] w-[18px]" />
                 </div>
                 <p className="text-[13px] font-medium text-[#07184A]/60 leading-snug min-h-[34px]">{k.label}</p>
                 <div className="mt-1.5 flex items-end justify-between">
                   <h3 className="text-[28px] font-bold text-[#07184A] leading-none">{k.value}</h3>
                   <span className={`text-xs font-semibold flex items-center gap-0.5 ${k.up ? "text-emerald-600" : "text-rose-500"}`}>
-                    {k.up ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
-                    {k.trend}
+                    {k.up ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}{k.trend}
                   </span>
                 </div>
                 <p className="text-[10px] text-[#07184A]/40 mt-1 font-medium">vs last 7 days</p>
@@ -138,35 +158,120 @@ export default function Dashboard() {
               <div className="p-4 sm:p-5 border-b border-border/50 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <h2 className="text-lg font-bold text-[#07184A]">Exam Queue</h2>
-                  <Badge className="bg-gradient-to-r from-[#E633FF] to-[#7C3AED] border-0 shadow-sm">16</Badge>
+                  <Badge className="bg-gradient-to-r from-[#E633FF] to-[#7C3AED] border-0 shadow-sm">{filtered.length}</Badge>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                   <div className="relative w-full sm:w-56">
                     <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input className="h-9 pl-9 bg-muted/30 rounded-full" placeholder="Search queue..." />
+                    <Input className="h-9 pl-9 bg-muted/30 rounded-full" placeholder="Search queue..." value={search} onChange={(e) => setSearch(e.target.value)} data-testid="input-search-queue" />
                   </div>
-                  <Button variant="outline" size="sm" className="h-9 rounded-full">
-                    <Filter className="h-4 w-4 mr-2" /> Filters
-                  </Button>
-                  <Button variant="outline" size="sm" className="h-9 rounded-full">
+
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" size="sm" className="h-9 rounded-full" data-testid="button-filters">
+                        <Filter className="h-4 w-4 mr-2" /> Filters
+                        {activeFilters > 0 && <Badge className="ml-2 bg-[#7C3AED] h-5 px-1.5 border-0">{activeFilters}</Badge>}
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent>
+                      <SheetHeader><SheetTitle>Filter Exams</SheetTitle></SheetHeader>
+                      <div className="space-y-5 py-6">
+                        <div className="space-y-1.5">
+                          <Label>Exam Status</Label>
+                          <Select value={statusFilter} onValueChange={setStatusFilter}>
+                            <SelectTrigger data-testid="select-filter-status"><SelectValue /></SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="all">All statuses</SelectItem>
+                              {rowStatuses.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label>State</Label>
+                          <Select value={stateFilter} onValueChange={setStateFilter}>
+                            <SelectTrigger data-testid="select-filter-state"><SelectValue /></SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="all">All states</SelectItem>
+                              {STATES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                      <SheetFooter>
+                        <Button variant="outline" onClick={() => { setStatusFilter("all"); setStateFilter("all"); }}>
+                          <X className="h-4 w-4 mr-1" /> Clear all
+                        </Button>
+                      </SheetFooter>
+                    </SheetContent>
+                  </Sheet>
+
+                  <Button
+                    variant="outline" size="sm" className="h-9 rounded-full" data-testid="button-export"
+                    onClick={() => toast({ title: "Prototype export generated", description: "A sample CSV would download in the live app." })}
+                  >
                     <Download className="h-4 w-4 mr-2" /> Export
                   </Button>
-                  <Button size="sm" className="h-9 rounded-full bg-gradient-to-r from-[#FF4FA3] to-[#7C3AED] hover:opacity-90 border-0 shadow-md">
-                    <Plus className="h-4 w-4 mr-1" /> New Exam
-                  </Button>
+
+                  <Dialog open={newExamOpen} onOpenChange={setNewExamOpen}>
+                    <DialogTrigger asChild>
+                      <Button size="sm" className="h-9 rounded-full bg-gradient-to-r from-[#FF4FA3] to-[#7C3AED] hover:opacity-90 border-0 shadow-md" data-testid="button-new-exam">
+                        <Plus className="h-4 w-4 mr-1" /> New Exam
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-lg">
+                      <DialogHeader><DialogTitle className="text-[#07184A]">Create New Exam Record</DialogTitle></DialogHeader>
+                      <div className="grid grid-cols-2 gap-4 py-2">
+                        <div className="col-span-2 space-y-1.5">
+                          <Label>Client / Company</Label>
+                          <Input placeholder="Acme Contracting" data-testid="input-new-client" />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label>State</Label>
+                          <Select><SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                            <SelectContent>{STATES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent></Select>
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label>Vendor</Label>
+                          <Select><SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                            <SelectContent>{VENDORS.map((v) => <SelectItem key={v} value={v}>{v}</SelectItem>)}</SelectContent></Select>
+                        </div>
+                        <div className="col-span-2 space-y-1.5">
+                          <Label>License / Application</Label>
+                          <Input placeholder="General Contractor" />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label>Exam Status</Label>
+                          <Select><SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                            <SelectContent>{EXAM_STATUSES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent></Select>
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label>Owner</Label>
+                          <Select><SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                            <SelectContent>{OWNERS.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent></Select>
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => setNewExamOpen(false)}>Cancel</Button>
+                        <Button className="bg-gradient-to-r from-[#FF4FA3] to-[#7C3AED] border-0" data-testid="button-save-new-exam"
+                          onClick={() => { setNewExamOpen(false); toast({ title: "Prototype record created", description: "No data is persisted in this prototype." }); }}>
+                          Create Record
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow className="hover:bg-transparent border-border/50 bg-[#F7FAFF]">
-                      {["Client / Company", "State", "License / Application", "Exam Type", "Status", "Scheduled", "Vendor", "Owner"].map((h) => (
+                      {["Client / Company", "State", "License / Application", "Exam Type", "Exam Status", "App Status", "Scheduled", "Deadline", "Vendor", "Owner"].map((h) => (
                         <TableHead key={h} className="text-[11px] uppercase font-semibold text-[#07184A]/50 tracking-wider whitespace-nowrap">{h}</TableHead>
                       ))}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {MOCK_EXAM_QUEUE.map((row) => {
+                    {filtered.map((row) => {
                       const active = selected.id === row.id;
                       return (
                         <TableRow
@@ -179,10 +284,10 @@ export default function Dashboard() {
                           <TableCell><Badge variant="outline" className="bg-muted/40 font-medium">{row.state}</Badge></TableCell>
                           <TableCell className="text-sm text-[#07184A]/70 whitespace-nowrap">{row.license}</TableCell>
                           <TableCell className="text-sm text-[#07184A]/60 whitespace-nowrap">{row.examType}</TableCell>
-                          <TableCell>
-                            <Badge variant="outline" className={`font-medium border whitespace-nowrap ${getStatusColor(row.status)}`}>{row.status}</Badge>
-                          </TableCell>
+                          <TableCell><Badge variant="outline" className={`font-medium border whitespace-nowrap ${getStatusColor(row.status)}`}>{row.status}</Badge></TableCell>
+                          <TableCell><Badge variant="outline" className={`font-medium border whitespace-nowrap ${getStatusColor(row.appStatus)}`}>{row.appStatus}</Badge></TableCell>
                           <TableCell className="text-sm font-medium text-[#07184A]/70 whitespace-nowrap">{row.scheduledDate}</TableCell>
+                          <TableCell className="text-sm font-medium text-[#07184A]/70 whitespace-nowrap">{row.deadline}</TableCell>
                           <TableCell className="text-sm text-[#07184A]/60 whitespace-nowrap">{row.vendor}</TableCell>
                           <TableCell>
                             <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${ownerGradient(row.owner)} text-white text-[11px] font-bold flex items-center justify-center shadow-sm`} title={row.ownerName}>
@@ -192,11 +297,14 @@ export default function Dashboard() {
                         </TableRow>
                       );
                     })}
+                    {filtered.length === 0 && (
+                      <TableRow><TableCell colSpan={10} className="text-center py-12 text-muted-foreground">No exams match your filters.</TableCell></TableRow>
+                    )}
                   </TableBody>
                 </Table>
               </div>
               <div className="p-4 border-t border-border/50 flex justify-between items-center text-sm text-muted-foreground">
-                <span>Showing 1 to 8 of 16 results</span>
+                <span>Showing {filtered.length} of {MOCK_EXAM_QUEUE.length} results</span>
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm" className="rounded-full" disabled>Previous</Button>
                   <Button variant="outline" size="sm" className="rounded-full">Next</Button>
@@ -259,14 +367,11 @@ export default function Dashboard() {
                   <div className="relative w-[104px] h-[104px] flex-shrink-0">
                     <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
                       <circle cx="50" cy="50" r="40" fill="none" stroke="#EEE7FF" strokeWidth="10" />
-                      <circle
-                        cx="50" cy="50" r="40" fill="none" stroke="url(#pulseGrad)" strokeWidth="10" strokeLinecap="round"
-                        strokeDasharray={ringCirc} strokeDashoffset={ringCirc * (1 - capacity / 100)}
-                      />
+                      <circle cx="50" cy="50" r="40" fill="none" stroke="url(#pulseGrad)" strokeWidth="10" strokeLinecap="round"
+                        strokeDasharray={ringCirc} strokeDashoffset={ringCirc * (1 - capacity / 100)} />
                       <defs>
                         <linearGradient id="pulseGrad" x1="0" y1="0" x2="1" y2="1">
-                          <stop offset="0%" stopColor="#7C3AED" />
-                          <stop offset="100%" stopColor="#E633FF" />
+                          <stop offset="0%" stopColor="#7C3AED" /><stop offset="100%" stopColor="#E633FF" />
                         </linearGradient>
                       </defs>
                     </svg>
@@ -301,8 +406,7 @@ export default function Dashboard() {
                       <AreaChart data={pipelineData} margin={{ top: 4, right: 0, left: 0, bottom: 0 }}>
                         <defs>
                           <linearGradient id="pipeGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.35} />
-                            <stop offset="100%" stopColor="#7C3AED" stopOpacity={0} />
+                            <stop offset="0%" stopColor="#7C3AED" stopOpacity={0.35} /><stop offset="100%" stopColor="#7C3AED" stopOpacity={0} />
                           </linearGradient>
                         </defs>
                         <Tooltip cursor={{ stroke: "#7C3AED", strokeWidth: 1 }} contentStyle={{ borderRadius: "10px", border: "none", boxShadow: "0 4px 16px rgba(0,0,0,0.12)", fontSize: "12px" }} formatter={(v: number) => [`$${v}K`, "Value"]} />
@@ -384,7 +488,7 @@ export default function Dashboard() {
                   <div className="space-y-2">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Exam Details</h4>
                     <div className="space-y-2 text-sm">
-                      <div className="flex justify-between gap-3"><span className="text-muted-foreground">Scheduled</span><span className="font-medium text-[#07184A] text-right">{selected.scheduledDate}</span></div>
+                      <div className="flex justify-between gap-3"><span className="text-muted-foreground">Date / Time</span><span className="font-medium text-[#07184A] text-right">{dateTime}</span></div>
                       <div className="flex justify-between gap-3"><span className="text-muted-foreground">Exam</span><span className="font-medium text-[#07184A] text-right">{selected.examType}</span></div>
                       <div className="flex justify-between gap-3"><span className="text-muted-foreground">Vendor</span><span className="font-medium text-[#07184A]">{selected.vendor}</span></div>
                       <div className="flex justify-between gap-3"><span className="text-muted-foreground">Confirmation #</span><span className="font-medium text-[#07184A]">{selected.confirmation}</span></div>
@@ -417,9 +521,53 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-gradient-to-r from-[#FF4FA3] via-[#E633FF] to-[#7C3AED] hover:opacity-90 border-0 shadow-md font-semibold text-white">
-                    Open Full Record <ExternalLink className="ml-2 h-4 w-4" />
-                  </Button>
+                  <Dialog open={fullRecordOpen} onOpenChange={setFullRecordOpen}>
+                    <DialogTrigger asChild>
+                      <Button className="w-full bg-gradient-to-r from-[#FF4FA3] via-[#E633FF] to-[#7C3AED] hover:opacity-90 border-0 shadow-md font-semibold text-white" data-testid="button-open-full-record">
+                        Open Full Record <ExternalLink className="ml-2 h-4 w-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2 text-[#07184A]">
+                          {selected.client}
+                          <Badge variant="outline" className={`border ${getStatusColor(selected.status)}`}>{selected.status}</Badge>
+                        </DialogTitle>
+                      </DialogHeader>
+                      <div className="grid sm:grid-cols-2 gap-5 py-2">
+                        <div className="space-y-1.5">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Client</h4>
+                          <p className="text-sm font-semibold text-[#07184A]">{selected.contact}</p>
+                          <p className="text-sm text-[#246BFE]">{selected.email}</p>
+                          <p className="text-sm text-muted-foreground">{selected.phone}</p>
+                          <p className="text-sm text-muted-foreground flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" /> {selected.location}</p>
+                        </div>
+                        <div className="space-y-2 text-sm">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Exam</h4>
+                          <div className="flex justify-between"><span className="text-muted-foreground">License</span><span className="font-medium text-[#07184A]">{selected.license}</span></div>
+                          <div className="flex justify-between"><span className="text-muted-foreground">Exam Type</span><span className="font-medium text-[#07184A]">{selected.examType}</span></div>
+                          <div className="flex justify-between"><span className="text-muted-foreground">Date / Time</span><span className="font-medium text-[#07184A]">{dateTime}</span></div>
+                          <div className="flex justify-between"><span className="text-muted-foreground">Vendor</span><span className="font-medium text-[#07184A]">{selected.vendor}</span></div>
+                          <div className="flex justify-between"><span className="text-muted-foreground">Cost</span><span className="font-medium text-[#07184A]">{selected.examCost}</span></div>
+                          <div className="flex justify-between"><span className="text-muted-foreground">Passing Score</span><span className="font-medium text-[#07184A]">{selected.passingScore}</span></div>
+                          <div className="flex justify-between"><span className="text-muted-foreground">Deadline</span><span className="font-medium text-[#07184A]">{selected.deadline}</span></div>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Timeline</h4>
+                        <div className="relative border-l-2 border-[#EEE7FF] ml-2 space-y-3">
+                          {selected.timeline.map((item, i) => (
+                            <div key={i} className="relative pl-4">
+                              <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full border-2 border-white bg-[#38A3FF]" />
+                              <p className="text-xs text-muted-foreground font-medium">{item.date}</p>
+                              <p className="text-sm font-medium text-[#07184A]">{item.text}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-[11px] text-muted-foreground pt-1">Prototype view — no data is persisted.</p>
+                    </DialogContent>
+                  </Dialog>
                 </TabsContent>
 
                 <TabsContent value="notes" className="p-5 space-y-3 m-0 focus-visible:outline-none">
