@@ -1,6 +1,6 @@
-# [Project name]
+# ExamManagerOS
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A polished, frontend-only React + Vite prototype for Contractor Compliance Authority's internal exam-scheduling platform. Tagline: "Manage. Prepare. Succeed."
 
 ## Run & Operate
 

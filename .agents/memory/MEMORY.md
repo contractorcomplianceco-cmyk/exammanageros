@@ -1,0 +1,1 @@
+- [ExamManagerOS conventions](exammanageros.md) — artifact workflow restart name gotcha (`artifacts/<slug>: <kind>`, not bare slug).

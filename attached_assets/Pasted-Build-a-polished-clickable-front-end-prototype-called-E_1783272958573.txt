@@ -1,0 +1,761 @@
+Build a polished clickable front-end prototype called ExamManagerOS.
+
+Use the attached ExamManagerOS logo and dashboard mockups as the primary visual reference. Match the mockup style closely: bright, premium, elegant, colorful, dimensional, and polished. The app should look like a high-end internal operations platform, not a generic SaaS template.
+
+App Name:
+ExamManagerOS
+
+Tagline:
+Manage. Prepare. Succeed.
+
+Purpose:
+ExamManagerOS is a standalone internal exam scheduling app for Contractor Compliance Authority. It is used by exam scheduling specialists to monitor, schedule, follow up on, and track contractor exams tied to license/application work.
+
+Primary Users:
+Skylar, Carmen, Rose, Emily, Alyssa, and Christin.
+
+External Users:
+Do not create a client-facing ExamManagerOS login. Clients see their exam information through ComplianceConnect only.
+
+Core System Rule:
+Use Supabase as the future system of record. Do not build this around Zoho CRM. Zoho Books is only the invoice/payment source that triggers exam record creation.
+
+Build Type:
+Create a clickable front-end prototype with realistic fake data. Do not connect real Supabase, Zoho Books, AuditEngine, ComplianceConnect, DocCollect, or email yet. Show integration-ready placeholders honestly.
+
+Technology:
+Use React, TypeScript, and Tailwind CSS. Build a clean component structure. Use local mock data in TypeScript files. The app must run in Replit with no broken dependencies.
+
+VISUAL DESIGN REQUIREMENTS
+
+Match the provided mockups:
+- Bright white and pearl interface background
+- Premium navy text
+- Purple, pink, blue, aqua, teal, coral, and lavender accent colors
+- Soft gradient cards
+- Rounded panels
+- Glassmorphism where appropriate
+- Subtle shadows
+- Floating depth
+- Elegant spacing
+- Polished app shell
+- Beautiful sidebar
+- Premium dashboard cards
+- Smooth hover states
+- Status pills with color
+- Dimensional but clean layout
+
+The app should feel:
+- Premium
+- Elegant
+- Modern
+- Feminine executive
+- High-trust
+- Operational
+- Clear
+- Beautiful
+- Bright and vibrant, not dark
+- Colorful, but not childish
+
+Avoid:
+- Dark neon-heavy design
+- All-purple UI
+- Yellow branding
+- Generic SaaS dashboard styling
+- Plain tables
+- Cheap gradients
+- Cluttered layout
+- Hard black backgrounds
+- Overly playful graphics
+
+Branding:
+Use a logo area styled like the mockup:
+- Hexagon-style mark
+- ExamManagerOS wordmark
+- “OS” in a pink/purple/blue gradient
+- Navy main text
+- Optional tagline placement: “Manage. Prepare. Succeed.”
+
+Primary Color Palette:
+- Deep navy: #07184A or similar
+- Royal blue: #246BFE
+- Electric blue: #38A3FF
+- Violet: #7C3AED
+- Magenta: #E633FF
+- Rose pink: #FF4FA3
+- Soft coral: #FF7C7C
+- Aqua/teal: #20C7C7
+- Lavender: #EEE7FF
+- Pearl white: #FFFFFF
+- Soft background: #F7FAFF
+
+Layout Style:
+Create a browser-app style dashboard similar to the mockup:
+- Left sidebar
+- Top search/header bar
+- Hero greeting area
+- KPI metric row
+- Central exam queue table
+- Right-side exam record detail panel
+- Lower insight cards
+- ComplianceConnect client portal preview card in the sidebar or as a panel
+
+APP STRUCTURE
+
+Required Sidebar Navigation:
+- Dashboard
+- Exam Queue
+- Records
+- Email Drafts
+- ComplianceConnect
+- DocCollect
+- Analytics
+- Settings
+
+Sidebar Design:
+The sidebar should be light, premium, and spacious. The active item should have a vibrant pink/purple/blue gradient pill with glow/shadow. Include small badges:
+- Exam Queue: 16
+- Email Drafts: 12
+
+Include a “Client Portal Preview” card in the lower sidebar:
+Title: ComplianceConnect
+Example client: Atlantic Mechanical or Pinnacle Mechanical
+Show:
+- compliance progress
+- document requests
+- missing items
+- upcoming exams
+- Open Portal button
+
+Top Header:
+Include:
+- Logo/wordmark
+- Global search input with placeholder: “Search exams, clients, contacts, and more…”
+- Keyboard hint: ⌘ K
+- Notification icons
+- Email/draft icon with badge
+- User profile: Rose Taylor, CEO
+
+Hero Area:
+Create a premium hero section at the top of the dashboard with soft pastel gradients, abstract flowing shapes, and subtle floral/petal or ribbon accents.
+
+Use this text:
+Good morning, Rose 👋
+Lead with clarity. Deliver with confidence.
+Excellence is scheduled.
+
+Do not make the decorative accents overwhelming. Keep them refined.
+
+DASHBOARD REQUIREMENTS
+
+Main Dashboard:
+Create a polished Leadership Dashboard / Scheduler Dashboard hybrid.
+
+KPI Cards:
+Create colorful dimensional KPI cards across the top. Each card should have:
+- Icon
+- Metric title
+- Large number
+- Small trend text
+- Soft gradient background
+- Colored icon square
+- Hover lift effect
+
+Required KPI cards:
+1. Exams Needing Scheduling
+   - Number: 32
+   - Trend: ↑ 5 vs last 7 days
+   - Purple accent
+
+2. Exams Coming Up
+   - Number: 18
+   - Trend: ↑ 4 vs last 7 days
+   - Blue accent
+
+3. Missed Exams
+   - Number: 3
+   - Trend: ↑ 1 vs last 7 days
+   - Coral/red accent
+
+4. Approaching Deadlines
+   - Number: 21
+   - Trend: ↑ 6 vs last 7 days
+   - Orange/coral accent
+
+5. Client Not Responding
+   - Number: 14
+   - Trend: ↓ 2 vs last 7 days
+   - Aqua/teal accent
+
+6. Prep Not Delivered
+   - Number: 7
+   - Trend: ↑ 2 vs last 7 days
+   - Pink accent
+
+Central Exam Queue:
+Create a large polished table card titled “Exam Queue” with badge 16.
+
+Include controls:
+- Search queue input
+- Filters button
+- Export button
+- + New Exam button with pink/purple gradient
+
+Table columns:
+- Client / Company
+- State
+- License / Application
+- Exam Type
+- Exam Status
+- Application Status
+- Scheduled Date
+- Deadline
+- Vendor
+- Owner
+
+Use realistic fake rows:
+1. Blue Ridge Partners
+   - TX
+   - Asbestos Abatement
+   - Project Management
+   - Prep In Progress
+   - Waiting on Exam
+   - May 28, 2024
+   - Jun 05, 2024
+   - PSI
+   - RT
+
+2. Summit Builders LLC
+   - FL
+   - General Contractor
+   - Business & Finance
+   - Waiting on Exam Date
+   - In Progress
+   - May 30, 2024
+   - Jun 08, 2024
+   - Pearson VUE
+   - LK
+
+3. Pinnacle Mechanical
+   - GA
+   - Mechanical Contractor
+   - Mechanical Trade
+   - Scheduled
+   - Approved
+   - Jun 01, 2024
+   - Jun 10, 2024
+   - PSI
+   - PS
+
+4. Lone Star Renovations
+   - TX
+   - Residential Builder
+   - Contractor Law
+   - Waiting on Prep Docs
+   - Approved
+   - Jun 02, 2024
+   - Jun 12, 2024
+   - PSI
+   - TE
+
+5. Coastal Plumbing Pros
+   - SC
+   - Plumbing Contractor
+   - Plumbing Trade
+   - At Risk
+   - In Review
+   - Not Scheduled
+   - May 19, 2024
+   - Pearson VUE
+   - EL
+
+6. Imperial Industrial
+   - OH
+   - HVAC Contractor
+   - HVAC Trade
+   - Scheduled
+   - Approved
+   - May 24, 2024
+   - Jun 01, 2024
+   - PSI
+   - ME
+
+7. Evergreen Roofing
+   - TN
+   - Roofing Contractor
+   - Trade Knowledge
+   - Prep In Progress
+   - Waiting on Docs
+   - May 26, 2024
+   - Jun 04, 2024
+   - PSI
+   - KC
+
+8. Clearview Development
+   - NC
+   - General Contractor
+   - Business & Finance
+   - Waiting on Exam Date
+   - In Progress
+   - Jun 06, 2024
+   - Jun 16, 2024
+   - Pearson VUE
+   - TE
+
+Status Pills:
+Use vibrant polished pills:
+- Scheduled: green
+- Approved: green
+- At Risk: coral/red
+- Waiting on Exam Date: orange
+- Prep In Progress: blue
+- Waiting on Prep Docs: lavender
+- Waiting on Docs: lavender
+- In Progress: teal
+- Pre-Approval Required: purple
+- Waiting on Client Date Preference: blue/purple
+- Waiting on Pass Sheet: pink/lavender
+- Failed: red
+- Retake Needed: orange/red
+
+Pagination:
+Show “Showing 1 to 8 of 16 results” and page controls.
+
+Right-Side Exam Record Panel:
+Create a fixed or sticky right-side panel titled “Exam Record.”
+
+Use selected record:
+Pinnacle Mechanical
+Mechanical Contractor License
+Georgia
+Status: Scheduled
+
+Panel tabs:
+- Overview
+- Notes
+- History
+
+Overview content:
+Client Details:
+- Primary Contact: Austin Reynolds
+- Email: a.reynolds@pinnaclemech.com
+- Phone: (404) 555-4671
+
+Exam Details:
+- Status: Scheduled
+- Date / Time: Jun 01, 2024, 9:00 AM EDT
+- Exam: Mechanical Trade
+- Vendor: PSI
+- Confirmation #: 78634122
+
+Application Status:
+- Approved
+
+Timeline:
+- May 12, 2024 — Exam scheduled
+- May 18, 2024 — Prep docs submitted
+- May 24, 2024 — Payment confirmed
+- Jun 01, 2024 — Exam day
+
+Next Steps:
+- Confirm exam location
+- Send day-before reminder
+- Post-exam follow-up
+
+Button:
+Open Full Record
+
+Lower Dashboard Widgets:
+Create bottom cards similar to the mockup:
+1. Activity Feed
+   - New exam scheduled for Blue Ridge Partners
+   - Prep documents received from Pinnacle Mechanical
+   - Email sent to Summit Builders LLC
+   - Payment confirmed from Coastal Plumbing Pros
+
+2. Strategic Focus
+   - Increase on-time exam rate — 92%
+   - Reduce client response time — 68%
+   - Improve prep delivery — 85%
+   - Expand vendor partnerships — 55%
+
+3. Team Pulse
+   - Team Capacity: 78%
+   - On Track: 26
+   - At Risk: 6
+   - Overloaded: 3
+   - Available: 5
+
+4. Pipeline Overview
+   - $2.48M total pipeline value
+   - Trend chart
+   - Qualification: $480K
+   - Proposal: $760K
+   - Negotiation: $820K
+   - Closed Won: $420K
+
+FUNCTIONAL REQUIREMENTS
+
+Clickability:
+This must be a clickable prototype, not a static screenshot.
+
+Implement:
+- Sidebar navigation active states
+- Exam Queue row selection
+- Selected row updates the Exam Record panel
+- Filters button opens a filter drawer or modal
+- + New Exam opens a form modal
+- Open Portal opens ComplianceConnect preview
+- Open Full Record opens a full record page or modal
+- Email Drafts nav shows draft email center
+- DocCollect nav shows document panel
+- AuditEngine section shows future-rule placeholders
+- ComplianceConnect nav shows client preview
+- Analytics nav shows KPI/insight dashboard
+- Settings nav shows prototype settings page
+
+Build at least these routes or tabbed pages:
+1. Dashboard
+2. Exam Queue
+3. Records
+4. Email Drafts
+5. ComplianceConnect
+6. DocCollect
+7. Analytics
+8. Settings
+
+Core Record Structure:
+One ExamManagerOS record per license/application.
+A license/application may have multiple exams, usually two exams for the same person.
+
+Default Owner:
+Skylar should be the default owner for new exam records.
+
+Record Creation Flow:
+When an invoice is paid in Zoho Books and includes the Exam Scheduling item number, create an exam record and route it to QA.
+
+Represent this in the prototype as:
+- Integration status card
+- “Zoho Books trigger: Invoice Paid”
+- “Exam Scheduling item detected”
+- “Record created”
+- “QA queue created”
+- “Default owner: Skylar”
+
+Required Integrations To Represent:
+1. Zoho Books
+   - Paid invoice triggers exam workflow.
+   - Item number for “Exam Scheduling” will be created by Rose.
+   - Prototype must show this as a placeholder integration only.
+
+2. AuditEngine
+   - Separate source connected later.
+   - Provides exam requirements, pre-approval rules, vendors, costs, deadlines, passing requirements, retest rules, pass sheets, and state/statute rules.
+   - Prototype must show an AuditEngine Rules panel.
+
+3. ComplianceConnect
+   - Client-facing portal shows basic exam information, scheduler contact, status, next steps, timeline, vendor, location, date/time, and prep status.
+   - Do not show internal notes.
+   - Prototype must include a client preview.
+
+4. DocCollect
+   - Clients upload pass sheets, exam confirmations, approvals, and related documents through ComplianceConnect/DocCollect.
+   - ExamManagerOS and DocCollect should share access to the document folder.
+   - Pass sheet is required before completion.
+   - When pass sheet is uploaded, notify Doc Collection/Application Processing.
+   - Prototype must include document status panels.
+
+Required Statuses:
+Exam and application statuses must be separate.
+
+Exam statuses:
+- New / Invoice Paid
+- Needs Review
+- Pre-Approval Required
+- Waiting for Board Approval
+- Ready to Schedule
+- Waiting on Client Date Preference
+- Scheduled
+- Exam Coming Up
+- Waiting on Pass Sheet
+- Passed
+- Failed
+- Retake Needed
+- Complete
+- At Risk
+- Canceled / No Show
+
+Application statuses:
+- Not Started
+- Waiting on Exam
+- Waiting on Pre-Approval
+- Ready for Application Processing
+- Application Processing Updated
+- Blocked
+- Complete
+
+Scheduling Workflow:
+If no pre-approval is needed:
+1. Send client exam information.
+2. Send exam prep information if purchased.
+3. Request client testing date preferences.
+4. Book the exam.
+5. Send scheduled exam confirmation.
+6. Get pass sheet.
+7. Update Doc Collection/Application Processing.
+
+If pre-approval is needed:
+1. Send client exam information.
+2. Wait for board approval.
+3. Once approved, request client testing date preferences.
+4. Book the exam.
+5. Send scheduled exam confirmation.
+6. Get pass sheet.
+7. Update Doc Collection/Application Processing.
+
+Client Date Preference Form Fields:
+- Preferred dates
+- Blackout dates
+- Preferred location
+- Online or in-person preference
+- Preferred time of day
+- Travel distance
+- Urgent notes
+- Accessibility/special notes if needed
+
+Exam Record Fields:
+- Client/company name
+- Contact person
+- Applicant/candidate name
+- License/application name
+- State
+- License classification
+- Exam name
+- Exact tests required
+- Pre-approval required: yes/no
+- Board approval status
+- Deadline source
+- Exam/application deadline
+- Passing requirements
+- Exam vendor
+- Exam cost
+- Retest cost
+- Exam prep purchased status
+- Exam prep delivery status
+- Candidate ID
+- Vendor account/login credential status
+- Scheduled date/time
+- Exam location
+- Pass sheet status
+- Exam result
+- Retest rules
+- Retake waiting period
+- Internal notes
+- Client-facing next step
+- Last client contact
+- Follow-up attempts
+- Communication history
+- Assigned scheduler
+- QA status
+- DocCollect folder/status
+- ComplianceConnect visibility status
+
+Credential Handling:
+The app may track that vendor credentials exist and where they are stored, but do not expose real passwords in the UI. Use placeholder credential indicators only.
+
+Email Rules:
+All client emails come from EXAMS@CCACONTACT.COM.
+Emails must be draft-first, not auto-sent.
+
+Required draft types:
+- Welcome / exam scheduling started
+- Exam information
+- Exam prep delivery
+- Date preference request
+- Scheduled exam confirmation
+- Reminder
+- Deadline alert
+- Missing response follow-up
+- Pass sheet request
+- Failed exam / retake next steps
+
+Email Draft Center:
+Create a page that includes:
+- Draft email list
+- Client name
+- Exam record
+- Draft type
+- Status: Needs Review, Approved, Ready to Send, Sent Placeholder
+- Edit button
+- Approve button
+- Send Placeholder button
+- Clear notice: “Prototype only. No real email is sent.”
+
+Tone:
+Supportive, calm, professional, and clear.
+
+Communication Tracking:
+Client replies and scheduler notes should appear in a communication timeline.
+“No client contact” means the client has not contacted CCA or responded.
+
+Escalation Logic:
+Use this default follow-up cadence:
+- Attempt 1: friendly reminder
+- Attempt 2: clearer reminder
+- Attempt 3: urgent deadline reminder
+- Attempt 4: phone-call task
+- Attempt 5: leadership escalation
+
+Urgent / Leadership Alert Rules:
+Flag urgent when:
+- Deadline is within 10 days
+- Client is not responding
+- Paid exam prep has not been delivered
+- Exam vendor issue exists
+- Exam was missed
+- Exam failed
+- Retake rules need confirmation
+- Pass sheet is missing after exam date
+
+Dashboards Required:
+1. Leadership Dashboard
+   - Exams needing to be scheduled
+   - Exams coming up
+   - Missed exams
+   - Failed exams
+   - Deadlines approaching
+   - Client not responding
+   - Paid prep not delivered
+   - Urgent items
+   - Scheduler workload
+   - Average time to schedule
+   - Pass/fail rate
+   - Stuck files
+   - Financial risk
+
+2. Scheduler Daily Dashboard
+   - Exams needing follow-up
+   - Exams needing to be scheduled
+   - Approaching deadlines
+   - Draft emails awaiting approval
+   - Client date preferences received
+   - Pass sheets needed
+   - Retake workflows
+
+3. Exam Queue
+   - Filter by status, state, scheduler, deadline, vendor, pre-approval, prep status, risk level, and client response status.
+
+4. Exam Detail Page
+   - Full license/application exam record
+   - Separate exam status and application status
+   - Timeline
+   - Tasks
+   - Email drafts
+   - Client portal preview
+   - DocCollect documents
+   - AuditEngine rules preview
+   - Cost/prep/payment information
+   - Internal notes
+
+5. ComplianceConnect Preview
+   Show what the client sees:
+   - Basic exam information
+   - Scheduler contact
+   - Status
+   - Next steps
+   - Timeline
+   - Vendor
+   - Location
+   - Date/time
+   - Prep status
+
+   Hide:
+   - Internal notes
+   - Risk scoring
+   - Staff-only escalation logic
+   - Vendor credential indicators
+
+6. DocCollect Panel
+   - Required files
+   - Uploaded files
+   - Pass sheet status
+   - Approval letter status
+   - Exam confirmation status
+   - Failed score sheet status
+   - Missing document indicators
+
+7. AuditEngine Rules Panel
+   Show imported/future exam rules:
+   - Required exams
+   - Pre-approval requirement
+   - Deadline
+   - Vendor
+   - Cost
+   - Passing score
+   - Retest rule
+   - Waiting period
+   - Pass sheet requirement
+
+Permissions:
+All users can see all records.
+All users can create exam records.
+Exam Scheduler or leadership can edit deadlines.
+Anyone can draft/send emails once approved.
+Exam Scheduler and leadership can mark exam complete.
+Internal staff can see internal notes.
+Internal notes must never show in ComplianceConnect preview.
+
+Prototype Data:
+Use realistic fake data for multiple:
+- Clients
+- States
+- License types
+- Exam vendors
+- Exam statuses
+- Application statuses
+- Deadlines
+- Prep statuses
+- Retake scenarios
+- Pass sheet scenarios
+- DocCollect document states
+- AuditEngine rule states
+- Communication histories
+
+Mobile Responsiveness:
+The layout must work on desktop, tablet, and mobile.
+On mobile:
+- Sidebar collapses
+- Right-side record panel becomes a drawer/modal
+- Tables become scrollable cards or responsive list rows
+- No clipping or overlapping
+
+Do Not:
+- Do not use Zoho CRM.
+- Do not imply real email sending is active.
+- Do not expose real credentials.
+- Do not create a client-facing ExamManagerOS login.
+- Do not show internal notes in the client portal preview.
+- Do not make this a generic SaaS dashboard.
+- Do not use yellow branding.
+- Do not make the design dark-heavy.
+- Do not make the design plain or unfinished.
+- Do not use placeholder lorem ipsum.
+- Do not create empty pages.
+
+Acceptance Criteria:
+- App loads as a polished, premium, bright, colorful ExamManagerOS dashboard.
+- Visual design closely matches the provided logo and dashboard mockups.
+- User can click between pages.
+- User can click between exam records.
+- User can filter the queue.
+- User can open a New Exam modal.
+- User can view leadership metrics.
+- User can view scheduler daily priorities.
+- User can see separate exam/application status.
+- User can see draft emails.
+- User can see ComplianceConnect client preview.
+- User can see DocCollect document status.
+- User can see AuditEngine rule placeholders.
+- User can clearly understand what is urgent today.
+- Layout works on desktop and mobile without clipping or overlapping.
+- The result feels premium, elegant, dimensional, bright, and ready to present.
