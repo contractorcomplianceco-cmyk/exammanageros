@@ -1,162 +1,129 @@
-import { ReactNode, useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
-import { 
-  LayoutDashboard, 
-  ListTodo, 
-  Files, 
-  Mail, 
-  MonitorPlay, 
-  FolderSync, 
-  BarChart3, 
-  Settings,
-  Bell,
-  Search,
-  Menu
+import { cn } from "@/lib/utils";
+import {
+  LayoutDashboard, ListChecks, FileStack, ScrollText, ListTodo,
+  MessageSquareText, FolderInput, BarChart3, Settings as SettingsIcon,
+  Menu, X, GraduationCap,
 } from "lucide-react";
-import logoPath from "@assets/ExamManagerOS_1783275986154.png";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-const NAV_ITEMS = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/queue", label: "Exam Queue", icon: ListTodo, badge: 16 },
-  { href: "/records", label: "Records", icon: Files },
-  { href: "/emails", label: "Email Drafts", icon: Mail, badge: 12 },
-  { href: "/compliance-connect", label: "ComplianceConnect", icon: MonitorPlay },
-  { href: "/doc-collect", label: "DocCollect", icon: FolderSync },
+const NAV = [
+  { href: "/", label: "Command Desk", icon: LayoutDashboard },
+  { href: "/queue", label: "Exam Queue", icon: ListChecks },
+  { href: "/applications", label: "Applications Blocked", icon: FileStack },
+  { href: "/transcripts", label: "Transcripts", icon: ScrollText },
+  { href: "/tasks", label: "Tasks & Escalations", icon: ListTodo },
+  { href: "/client-updates", label: "Client Updates", icon: MessageSquareText },
+  { href: "/doc-collect", label: "Doc Collection", icon: FolderInput },
   { href: "/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/settings", label: "Settings", icon: SettingsIcon },
 ];
 
-function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
-  const [location] = useLocation();
+function isActive(current: string, href: string) {
+  if (href === "/") return current === "/" || current === "";
+  return current === href || current.startsWith(href + "/");
+}
+
+function SidebarContent({ current, onNavigate }: { current: string; onNavigate?: () => void }) {
   return (
-    <div className="flex flex-col justify-between h-full">
-      <div>
-        <div className="flex items-center px-2 py-2 border-b border-border">
-          <img src={logoPath} alt="ExamManagerOS Logo" className="w-full max-w-[220px] object-contain" />
-        </div>
-        <nav className="p-4 space-y-1">
-          {NAV_ITEMS.map((item) => {
-            const isActive = location === item.href;
-            return (
-              <Link key={item.href} href={item.href} onClick={onNavigate}>
-                <div className={`flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 ${isActive ? 'bg-gradient-to-r from-[#FF4FA3]/10 to-[#7C3AED]/10 text-primary font-medium shadow-sm' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'}`}>
-                  <div className="flex items-center gap-3">
-                    <item.icon className={`h-5 w-5 ${isActive ? 'text-[#E633FF]' : ''}`} />
-                    <span>{item.label}</span>
-                  </div>
-                  {item.badge && (
-                    <Badge variant={isActive ? "default" : "secondary"} className={isActive ? "bg-gradient-to-r from-[#FF4FA3] to-[#7C3AED]" : ""}>
-                      {item.badge}
-                    </Badge>
-                  )}
-                </div>
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
-      <div className="p-4">
-        <div className="relative rounded-2xl p-4 overflow-hidden bg-gradient-to-br from-[#07184A] via-[#3B2B8F] to-[#7C3AED] shadow-[0_12px_28px_-14px_rgba(124,58,237,0.6)]">
-          <div className="absolute -top-6 -right-6 w-24 h-24 bg-[#E633FF]/40 blur-2xl rounded-full pointer-events-none" />
-          <div className="absolute -bottom-8 -left-4 w-24 h-24 bg-[#38A3FF]/30 blur-2xl rounded-full pointer-events-none" />
-          <div className="relative z-10 text-white">
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-white/60">Client Portal</p>
-                <p className="text-sm font-bold leading-tight">Atlantic Mechanical</p>
-              </div>
-              <div className="relative w-11 h-11 flex-shrink-0">
-                <svg className="w-full h-full -rotate-90" viewBox="0 0 44 44">
-                  <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="4" />
-                  <circle cx="22" cy="22" r="18" fill="none" stroke="#20C7C7" strokeWidth="4" strokeLinecap="round" strokeDasharray={2 * Math.PI * 18} strokeDashoffset={2 * Math.PI * 18 * (1 - 0.75)} />
-                </svg>
-                <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold">75%</span>
-              </div>
-            </div>
-            <div className="space-y-1.5 mb-3">
-              {[
-                { label: "Document Requests", value: 3 },
-                { label: "Missing Items", value: 2 },
-                { label: "Upcoming Exams", value: 4 },
-              ].map((row) => (
-                <div key={row.label} className="flex items-center justify-between text-[11px]">
-                  <span className="text-white/70">{row.label}</span>
-                  <span className="font-semibold bg-white/15 rounded-md px-1.5 py-0.5 backdrop-blur-sm">{row.value}</span>
-                </div>
-              ))}
-            </div>
-            <Link href="/compliance-connect" onClick={onNavigate}>
-              <Button size="sm" className="w-full text-xs font-semibold bg-white/95 text-[#07184A] hover:bg-white border-0 shadow-sm">Open Portal</Button>
-            </Link>
+    <div className="flex h-full flex-col">
+      <div className="px-5 pt-6 pb-5">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-violet-500 text-white shadow-sm">
+            <GraduationCap className="h-5 w-5" />
+          </div>
+          <div>
+            <div className="text-[15px] font-semibold text-slate-900 leading-tight">ExamsManagerOS</div>
+            <div className="text-[10px] font-medium text-slate-400">Manage · Prepare · Succeed</div>
           </div>
         </div>
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          <span className="rounded-full bg-sky-50 px-2 py-0.5 text-[10px] font-medium text-sky-700 border border-sky-200">RoseOS Ecosystem App</span>
+          <span className="rounded-full bg-violet-50 px-2 py-0.5 text-[10px] font-medium text-violet-700 border border-violet-200">Protected Preview</span>
+        </div>
+      </div>
+      <nav className="flex-1 space-y-0.5 overflow-y-auto px-3">
+        {NAV.map((item) => {
+          const active = isActive(current, item.href);
+          const Icon = item.icon;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={onNavigate}
+              data-testid={`nav-${item.label.toLowerCase().replace(/[^a-z]+/g, "-")}`}
+              className={cn(
+                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
+                active ? "bg-sky-50 text-sky-700" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+              )}
+            >
+              <Icon className={cn("h-4.5 w-4.5 shrink-0", active ? "text-sky-600" : "text-slate-400")} />
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
+      <div className="px-5 py-4 border-t border-slate-100">
+        <p className="text-[10px] leading-relaxed text-slate-400">
+          Representative data. External sending, live CRM updates, ComplianceConnect publishing, Doc Collection sync,
+          and WorkDrive updates are disabled unless connected integrations are enabled.
+        </p>
       </div>
     </div>
   );
 }
 
-export function AppLayout({ children }: { children: ReactNode }) {
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+export function Layout({ children }: { children: ReactNode }) {
+  const [location] = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="flex h-screen w-full bg-background overflow-hidden">
-      <aside className="hidden md:flex w-64 flex-shrink-0 border-r border-border bg-sidebar flex-col">
-        <SidebarContent />
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-slate-200 bg-white lg:block">
+        <SidebarContent current={location} />
       </aside>
 
-      <main className="flex-1 flex flex-col min-w-0 bg-[#F7FAFF]">
-        <header className="h-16 flex-shrink-0 border-b border-border bg-white px-4 sm:px-6 flex items-center justify-between gap-3">
-          <div className="flex items-center flex-1 min-w-0 gap-3">
-            <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden flex-shrink-0" data-testid="button-mobile-nav">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="p-0 w-64 bg-sidebar">
-                <SidebarContent onNavigate={() => setMobileNavOpen(false)} />
-              </SheetContent>
-            </Sheet>
-            <div className="relative w-full max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input 
-                className="pl-9 bg-muted/50 border-transparent focus-visible:ring-primary/20 rounded-full w-full"
-                placeholder="Search exams, clients, contacts..."
-              />
-              <div className="hidden sm:block absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-muted-foreground border border-border rounded px-1.5 py-0.5 bg-background">
-                ⌘ K
-              </div>
-            </div>
+      {mobileOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden">
+          <div className="absolute inset-0 bg-slate-900/30" onClick={() => setMobileOpen(false)} />
+          <aside className="absolute inset-y-0 left-0 w-72 bg-white shadow-xl">
+            <button
+              className="absolute right-3 top-4 rounded-lg p-1.5 text-slate-400 hover:bg-slate-100"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Close menu"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <SidebarContent current={location} onNavigate={() => setMobileOpen(false)} />
+          </aside>
+        </div>
+      )}
+
+      <div className="lg:pl-64">
+        <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-slate-200 bg-white/90 px-4 py-3 backdrop-blur lg:px-8">
+          <button
+            className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 lg:hidden"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+          <div className="flex items-center gap-2 text-xs text-slate-500">
+            <span className="hidden sm:inline">Contractor Compliance Authority</span>
+            <span className="hidden sm:inline text-slate-300">/</span>
+            <span className="font-medium text-slate-700">Exam Lifecycle Operations</span>
           </div>
-          <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
-            <Button variant="ghost" size="icon" className="relative rounded-full hidden sm:inline-flex">
-              <Mail className="h-5 w-5 text-foreground/70" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full"></span>
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full hidden sm:inline-flex">
-              <Bell className="h-5 w-5 text-foreground/70" />
-            </Button>
-            <div className="flex items-center gap-3 sm:pl-4 sm:border-l border-border">
-              <div className="text-right hidden sm:block">
-                <p className="text-sm font-semibold">Rose Taylor</p>
-                <p className="text-xs text-muted-foreground">CEO</p>
-              </div>
-              <Avatar className="h-9 w-9 ring-2 ring-primary/10">
-                <AvatarFallback className="bg-gradient-to-tr from-[#246BFE] to-[#E633FF] text-white">RT</AvatarFallback>
-              </Avatar>
+          <div className="ml-auto flex items-center gap-2">
+            <span className="hidden rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-medium text-amber-700 sm:inline">
+              External sending disabled
+            </span>
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-violet-500 text-xs font-semibold text-white">
+              RT
             </div>
           </div>
         </header>
-        
-        <div className="flex-1 overflow-auto">
-          {children}
-        </div>
-      </main>
+        <main className="mx-auto max-w-[1400px] px-4 py-6 lg:px-8 lg:py-8">{children}</main>
+      </div>
     </div>
   );
 }

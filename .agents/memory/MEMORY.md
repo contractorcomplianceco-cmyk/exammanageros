@@ -1,1 +1,1 @@
-- [ExamManagerOS conventions](exammanageros.md) — artifact workflow restart name gotcha (`artifacts/<slug>: <kind>`, not bare slug).
+- [ExamsManagerOS persisted state](examsmanageros-state.md) — zustand persist key gotcha: bump key when seed shape changes or stale localStorage overrides new seed.

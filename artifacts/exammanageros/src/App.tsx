@@ -1,28 +1,30 @@
 import { Switch, Route, Router as WouterRouter } from "wouter";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/toaster";
+import { Layout } from "@/components/layout";
 import NotFound from "@/pages/not-found";
 
-import Dashboard from "@/pages/dashboard";
-import Queue from "@/pages/queue";
-import Records from "@/pages/records";
-import Emails from "@/pages/emails";
-import ComplianceConnect from "@/pages/compliance-connect";
+import CommandDesk from "@/pages/command-desk";
+import ExamQueue from "@/pages/exam-queue";
+import ExamDetail from "@/pages/exam-detail";
+import Applications from "@/pages/applications";
+import Transcripts from "@/pages/transcripts";
+import Tasks from "@/pages/tasks";
+import ClientUpdates from "@/pages/client-updates";
 import DocCollect from "@/pages/doc-collect";
 import Analytics from "@/pages/analytics";
 import Settings from "@/pages/settings";
 
-const queryClient = new QueryClient();
-
-function Router() {
+function Routes() {
   return (
     <Switch>
-      <Route path="/" component={Dashboard} />
-      <Route path="/queue" component={Queue} />
-      <Route path="/records" component={Records} />
-      <Route path="/emails" component={Emails} />
-      <Route path="/compliance-connect" component={ComplianceConnect} />
+      <Route path="/" component={CommandDesk} />
+      <Route path="/queue" component={ExamQueue} />
+      <Route path="/exam/:id" component={ExamDetail} />
+      <Route path="/applications" component={Applications} />
+      <Route path="/transcripts" component={Transcripts} />
+      <Route path="/tasks" component={Tasks} />
+      <Route path="/client-updates" component={ClientUpdates} />
       <Route path="/doc-collect" component={DocCollect} />
       <Route path="/analytics" component={Analytics} />
       <Route path="/settings" component={Settings} />
@@ -31,17 +33,15 @@ function Router() {
   );
 }
 
-function App() {
+export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </WouterRouter>
-        <Toaster />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <TooltipProvider>
+      <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+        <Layout>
+          <Routes />
+        </Layout>
+      </WouterRouter>
+      <Toaster />
+    </TooltipProvider>
   );
 }
-
-export default App;

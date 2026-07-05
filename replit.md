@@ -22,15 +22,27 @@ A polished, frontend-only React + Vite prototype for Contractor Compliance Autho
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/exammanageros/src/domain/` — source of truth for the app model:
+  - `types.ts` — all entity + status-union types
+  - `status.ts` — status tone/color helpers + `EXAM_STATUSES`
+  - `seed.ts` — `buildSeed()` with the 10 required scenarios
+  - `derive.ts` — queue filters (`matchesFilter`), `lookup` helpers, `isOverdue`, KPI derivations
+- `artifacts/exammanageros/src/store/useStore.ts` — zustand + persist store (key `examsmanageros-v2`); all mutating actions log audit events and run lifecycle automations. Exports `type Store`.
+- `artifacts/exammanageros/src/pages/` — one file per screen; `exam-detail.tsx` (9 tabs) is the most complex.
+- `artifacts/exammanageros/src/components/{shared.tsx,layout.tsx}` — shared UI primitives + app shell.
+- `artifacts/exammanageros/src/App.tsx` — wouter routes wrapped in Layout; base = `import.meta.env.BASE_URL`.
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Frontend-only prototype: no backend, no real integrations. All state persists to localStorage via zustand `persist`.
+- Lifecycle automations live in the store, not the components: e.g. `markPassed` auto-creates a transcript task (or unblocks applications when no transcript is required), `setExamStatus` gates "Ready to schedule" behind eligibility, `markFailed` creates a retake task.
+- Every mutating store action appends an audit event, so the audit trail is complete without per-component wiring.
+- Queue filter is URL-driven (`?filter=`) and synced via effect, so Command Desk KPI drilldowns always update the visible filter.
+- Honesty labels are intentional: "Protected Preview" / "RoseOS Ecosystem App" chrome and "Sync-ready preview" integration labels; no dead buttons.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+ExamsManagerOS is an internal exam-lifecycle operating app for Contractor Compliance Authority (RoseOS ecosystem). It tracks each contractor exam from eligibility → study/prep → scheduling → results → transcripts → unblocking dependent license applications. Operators work a unified Exam Queue (16 filters) and per-exam workspace (9 tabs), manage tasks and escalations, review client-facing updates through an approval workflow, collect documents, and view analytics — all against representative seed data.
 
 ## User preferences
 
