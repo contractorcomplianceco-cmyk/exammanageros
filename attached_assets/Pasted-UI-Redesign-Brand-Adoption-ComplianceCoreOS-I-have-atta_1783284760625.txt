@@ -1,0 +1,273 @@
+UI Redesign & Brand Adoption — ComplianceCoreOS™
+
+I have attached three reference images.
+
+Image 1
+
+Official ComplianceCoreOS™ Horizontal Brand Lockup
+
+This is the official product identity.
+
+Adopt this branding throughout the application.
+
+This is NOT simply a logo.
+
+It defines the product language.
+
+Image 2
+
+Target Dashboard Design
+
+This is the visual direction.
+
+The application should feel like this.
+
+Study the:
+
+spacing
+typography
+hierarchy
+color palette
+shadows
+iconography
+card styling
+visual weight
+premium feel
+Image 3
+
+Current Application
+
+Keep all functionality.
+
+Keep all routes.
+
+Keep all components.
+
+Keep all business logic.
+
+Redesign only the presentation layer.
+
+MOST IMPORTANT CHANGE
+Stop treating the logo as a favicon.
+
+The left navigation is approximately 320px wide.
+
+The logo should become the product header.
+
+It should occupy approximately 70–80% of the available sidebar width while maintaining proportional height.
+
+The logo should feel intentional and premium.
+
+Not tiny.
+
+Not tucked in the corner.
+
+Not like a website header.
+
+Think:
+
+Linear
+
+Notion
+
+Figma
+
+Arc Browser
+
+Vercel
+
+Apple Developer
+
+where the brand is part of the product experience.
+
+Sidebar
+
+Increase the logo area.
+
+Approximately 120–160px tall.
+
+Center the logo.
+
+Allow breathing room.
+
+The logo becomes the hero of the sidebar.
+
+Below it place navigation.
+
+Do not shrink the logo to icon size.
+
+Typography
+
+Elegant.
+
+Executive.
+
+Luxury.
+
+Use:
+
+Inter
+
+Manrope
+
+General Sans
+
+Plus Jakarta Sans
+
+Avoid heavy fonts.
+
+Color Direction
+
+Use the branding from Image 1.
+
+Primary
+
+Pearl White
+
+Rose Quartz
+
+Blush Pink
+
+Soft Platinum
+
+Dusty Rose
+
+Soft Teal
+
+Charcoal
+
+Avoid
+
+Blue
+
+Navy
+
+Gold
+
+Black backgrounds
+
+Components
+
+Redesign every component using the same visual language as Image 2.
+
+Cards
+
+Buttons
+
+Navigation
+
+Tables
+
+Charts
+
+Inputs
+
+Badges
+
+Search
+
+Dropdowns
+
+Empty states
+
+Modals
+
+Notifications
+
+Everything should look like it belongs to the same premium design system.
+
+Design Language
+
+Soft shadows
+
+24px radius
+
+Glass accents
+
+Luxury spacing
+
+Floating cards
+
+Very subtle gradients
+
+Premium white backgrounds
+
+Elegant iconography
+
+Large whitespace
+
+Minimal borders
+
+High-end polish
+
+Dashboard
+
+The dashboard should feel like an executive operating system.
+
+Not an admin panel.
+
+Use:
+
+large KPI cards
+
+beautiful spacing
+
+visual hierarchy
+
+platform health
+
+master data
+
+connected systems
+
+governance
+
+recent activity
+
+integration health
+
+data quality
+
+Product Branding
+
+Use the attached horizontal lockup exactly.
+
+Treat it as a premium enterprise software brand.
+
+The sidebar logo should be approximately:
+
+70–80% of the sidebar width
+
+centered
+
+with generous whitespace
+
+Never compress it into a tiny corner logo.
+
+Preserve
+
+Do not modify:
+
+routing
+
+React components
+
+business logic
+
+database
+
+API
+
+authentication
+
+permissions
+
+workflows
+
+Only redesign the UI.
+
+Success Criteria
+
+When someone opens ComplianceCoreOS™, it should immediately feel like a luxury enterprise operating system, comparable to Linear, Notion, Vercel, Stripe, Apple Developer, or Arc Browser—bright, elegant, spacious, and premium.
+
+The branding should feel integrated into the product, not merely placed in the corner. The logo should anchor the sidebar and establish the identity of the platform from the moment the application loads.
