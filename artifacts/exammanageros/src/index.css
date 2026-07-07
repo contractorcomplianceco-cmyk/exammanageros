@@ -61,55 +61,55 @@
 }
 
 :root {
-  --background: 218 100% 98%; /* #F7FAFF */
-  --foreground: 225 82% 16%; /* #07184A */
+  --background: 260 30% 98%; /* Soft pastel lavender wash #FAFAFD */
+  --foreground: 232 47% 19%; /* Navy ink text #1A1E4A */
   
   --card: 0 0% 100%;
-  --card-foreground: 225 82% 16%;
-  --card-border: 220 20% 90%;
+  --card-foreground: 232 47% 19%;
+  --card-border: 260 20% 92%;
   
   --popover: 0 0% 100%;
-  --popover-foreground: 225 82% 16%;
-  --popover-border: 220 20% 90%;
+  --popover-foreground: 232 47% 19%;
+  --popover-border: 260 20% 92%;
   
-  --primary: 221 99% 57%; /* #246BFE */
+  --primary: 290 80% 55%; /* Vivid magenta/purple */
   --primary-foreground: 0 0% 100%;
   
-  --secondary: 260 83% 61%; /* #7C3AED */
+  --secondary: 330 80% 65%; /* Pink accent */
   --secondary-foreground: 0 0% 100%;
   
-  --muted: 220 20% 94%;
-  --muted-foreground: 220 15% 45%;
+  --muted: 260 20% 94%;
+  --muted-foreground: 232 20% 45%;
   
-  --accent: 300 100% 60%; /* #E633FF */
+  --accent: 300 80% 60%;
   --accent-foreground: 0 0% 100%;
   
-  --destructive: 0 100% 74%; /* #FF7C7C */
+  --destructive: 0 80% 60%;
   --destructive-foreground: 0 0% 100%;
   
-  --border: 220 20% 90%;
-  --input: 220 20% 90%;
-  --ring: 221 99% 57%;
+  --border: 260 20% 90%;
+  --input: 260 20% 90%;
+  --ring: 290 80% 55%;
   
   --sidebar: 0 0% 100%;
-  --sidebar-foreground: 225 82% 16%;
-  --sidebar-border: 220 20% 90%;
-  --sidebar-primary: 221 99% 57%;
+  --sidebar-foreground: 232 47% 19%;
+  --sidebar-border: 260 20% 92%;
+  --sidebar-primary: 290 80% 55%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 220 20% 96%;
-  --sidebar-accent-foreground: 225 82% 16%;
-  --sidebar-ring: 221 99% 57%;
+  --sidebar-accent: 260 30% 97%;
+  --sidebar-accent-foreground: 232 47% 19%;
+  --sidebar-ring: 290 80% 55%;
 
   --app-font-sans: 'Inter', sans-serif;
   --app-font-serif: Georgia, serif;
   --app-font-mono: Menlo, monospace;
-  --radius: 0.75rem;
+  --radius: 1rem; /* Generous rounding */
 
-  --chart-1: 221 99% 57%;
-  --chart-2: 260 83% 61%;
-  --chart-3: 300 100% 60%;
-  --chart-4: 331 100% 65%;
-  --chart-5: 180 73% 45%;
+  --chart-1: 290 80% 55%;
+  --chart-2: 330 80% 65%;
+  --chart-3: 260 80% 65%;
+  --chart-4: 310 80% 60%;
+  --chart-5: 350 80% 70%;
 }
 
 .dark {

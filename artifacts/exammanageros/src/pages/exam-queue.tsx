@@ -5,8 +5,8 @@ import { matchesFilter, lookup, isOverdue, type QueueFilter } from "@/domain/der
 import {
   examStatusTone, eligibilityTone, studyTone, registrationTone, resultTone, transcriptTone, riskTone,
 } from "@/domain/status";
-import { PageHeader, Badge, Card, fmtDate } from "@/components/shared";
-import { Search } from "lucide-react";
+import { PageHeader, Badge, Card, fmtDate, EmptyState } from "@/components/shared";
+import { Search, SlidersHorizontal } from "lucide-react";
 
 const FILTERS: { key: QueueFilter; label: string }[] = [
   { key: "all", label: "All" },
@@ -63,41 +63,51 @@ export default function ExamQueue() {
         subtitle="Complete operational view of every exam across the lifecycle. Click any row to open its full workspace."
       />
 
-      <div className="mb-4 flex flex-wrap items-center gap-2">
-        {FILTERS.map((f) => (
-          <button
-            key={f.key}
-            onClick={() => setFilter(f.key)}
-            data-testid={`filter-${f.key}`}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
-              filter === f.key
-                ? "border-sky-300 bg-sky-50 text-sky-700"
-                : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
-            }`}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="mb-4 relative max-w-sm">
-        <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Search client, candidate, exam, state…"
-          data-testid="input-search"
-          className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100"
-        />
-      </div>
+      <Card className="mb-6 p-4">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex-1 max-w-3xl">
+            <div className="flex items-center gap-2 mb-3">
+              <SlidersHorizontal className="h-4 w-4 text-purple-400" />
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Filters</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {FILTERS.map((f) => (
+                <button
+                  key={f.key}
+                  onClick={() => setFilter(f.key)}
+                  data-testid={`filter-${f.key}`}
+                  className={`rounded-full border px-3.5 py-1.5 text-[13px] font-bold transition-all duration-200 ${
+                    filter === f.key
+                      ? "border-purple-300 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-900 shadow-sm"
+                      : "border-white bg-white/50 text-slate-500 hover:border-purple-200 hover:bg-white hover:text-purple-700"
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          <div className="relative min-w-[300px]">
+            <Search className="absolute left-4 top-3 h-4 w-4 text-purple-300" />
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search client, candidate, exam…"
+              data-testid="input-search"
+              className="w-full rounded-[14px] border border-white bg-white/60 py-2.5 pl-11 pr-4 text-sm font-medium text-purple-950 placeholder:text-slate-400 outline-none focus:border-purple-300 focus:bg-white focus:ring-4 focus:ring-purple-500/10 shadow-sm transition-all"
+            />
+          </div>
+        </div>
+      </Card>
 
       <Card className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[1700px] text-sm">
             <thead>
-              <tr className="border-b border-slate-100 bg-slate-50/60 text-left">
+              <tr className="border-b border-purple-100/50 bg-white/40 text-left">
                 {COLS.map((c) => (
-                  <th key={c} className="whitespace-nowrap px-3 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-slate-500">{c}</th>
+                  <th key={c} className="whitespace-nowrap px-4 py-3.5 text-[11px] font-bold uppercase tracking-widest text-slate-400">{c}</th>
                 ))}
               </tr>
             </thead>
@@ -107,35 +117,35 @@ export default function ExamQueue() {
                 const cli = lookup.client(s, e.clientId);
                 const app = lookup.applications(s, e.id)[0];
                 return (
-                  <tr key={e.id} className="border-b border-slate-50 hover:bg-sky-50/40">
-                    <td className="px-3 py-2.5 whitespace-nowrap">
-                      <Link href={`/exam/${e.id}`} className="font-medium text-slate-800 hover:text-sky-700" data-testid={`row-exam-${e.id}`}>
+                  <tr key={e.id} className="border-b border-white/50 bg-white/20 hover:bg-purple-50/40 transition-colors group">
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      <Link href={`/exam/${e.id}`} className="font-bold text-purple-900 group-hover:text-purple-600 transition-colors" data-testid={`row-exam-${e.id}`}>
                         {cli?.name}
                       </Link>
                     </td>
-                    <td className="px-3 py-2.5 whitespace-nowrap text-slate-600">{cand?.fullName}</td>
-                    <td className="px-3 py-2.5 whitespace-nowrap text-slate-500">{app ? app.applicationNumber : "—"}</td>
-                    <td className="px-3 py-2.5 whitespace-nowrap text-slate-600">{e.state}</td>
-                    <td className="px-3 py-2.5 whitespace-nowrap text-slate-600">{e.boardAgency}</td>
-                    <td className="px-3 py-2.5 max-w-[220px] truncate text-slate-700" title={e.examName}>{e.examName}</td>
-                    <td className="px-3 py-2.5 whitespace-nowrap text-slate-600">{e.provider}</td>
-                    <td className="px-3 py-2.5 whitespace-nowrap"><Badge className={examStatusTone(e.status)}>{e.status}</Badge></td>
-                    <td className="px-3 py-2.5 whitespace-nowrap"><Badge className={eligibilityTone(e.eligibilityStatus)}>{e.eligibilityStatus}</Badge></td>
-                    <td className="px-3 py-2.5 whitespace-nowrap"><Badge className={studyTone(e.studyStatus)}>{e.studyStatus}</Badge></td>
-                    <td className="px-3 py-2.5 whitespace-nowrap"><Badge className={registrationTone(e.registrationStatus)}>{e.registrationStatus}</Badge></td>
-                    <td className="px-3 py-2.5 whitespace-nowrap text-slate-600">{fmtDate(e.scheduledDate)}</td>
-                    <td className="px-3 py-2.5 whitespace-nowrap"><Badge className={resultTone(e.resultStatus)}>{e.resultStatus}</Badge></td>
-                    <td className="px-3 py-2.5 whitespace-nowrap"><Badge className={transcriptTone(e.transcriptStatus)}>{e.transcriptStatus}</Badge></td>
-                    <td className="px-3 py-2.5 whitespace-nowrap text-slate-600">{e.owner}</td>
-                    <td className="px-3 py-2.5 max-w-[200px] truncate text-slate-600" title={e.nextAction}>{e.nextAction}</td>
-                    <td className={`px-3 py-2.5 whitespace-nowrap ${isOverdue(e.dueDate) && e.status !== "Closed" ? "font-medium text-rose-600" : "text-slate-600"}`}>{fmtDate(e.dueDate)}</td>
-                    <td className="px-3 py-2.5 whitespace-nowrap"><Badge className={riskTone(e.riskLevel)}>{e.riskLevel}</Badge></td>
+                    <td className="px-4 py-3 whitespace-nowrap font-medium text-slate-600">{cand?.fullName}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-slate-500 font-medium">{app ? app.applicationNumber : "—"}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-slate-600 font-medium">{e.state}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-slate-600 font-medium">{e.boardAgency}</td>
+                    <td className="px-4 py-3 max-w-[220px] truncate text-slate-700 font-semibold" title={e.examName}>{e.examName}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-slate-600 font-medium">{e.provider}</td>
+                    <td className="px-4 py-3 whitespace-nowrap"><Badge className={examStatusTone(e.status)}>{e.status}</Badge></td>
+                    <td className="px-4 py-3 whitespace-nowrap"><Badge className={eligibilityTone(e.eligibilityStatus)}>{e.eligibilityStatus}</Badge></td>
+                    <td className="px-4 py-3 whitespace-nowrap"><Badge className={studyTone(e.studyStatus)}>{e.studyStatus}</Badge></td>
+                    <td className="px-4 py-3 whitespace-nowrap"><Badge className={registrationTone(e.registrationStatus)}>{e.registrationStatus}</Badge></td>
+                    <td className="px-4 py-3 whitespace-nowrap font-semibold text-purple-900">{fmtDate(e.scheduledDate)}</td>
+                    <td className="px-4 py-3 whitespace-nowrap"><Badge className={resultTone(e.resultStatus)}>{e.resultStatus}</Badge></td>
+                    <td className="px-4 py-3 whitespace-nowrap"><Badge className={transcriptTone(e.transcriptStatus)}>{e.transcriptStatus}</Badge></td>
+                    <td className="px-4 py-3 whitespace-nowrap font-bold text-slate-600">{e.owner}</td>
+                    <td className="px-4 py-3 max-w-[200px] truncate text-slate-600 font-medium" title={e.nextAction}>{e.nextAction}</td>
+                    <td className={`px-4 py-3 whitespace-nowrap font-semibold ${isOverdue(e.dueDate) && e.status !== "Closed" ? "text-rose-600" : "text-slate-600"}`}>{fmtDate(e.dueDate)}</td>
+                    <td className="px-4 py-3 whitespace-nowrap"><Badge className={riskTone(e.riskLevel)}>{e.riskLevel}</Badge></td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
-          {rows.length === 0 && <div className="py-10 text-center text-sm text-slate-400">No exams match this view.</div>}
+          {rows.length === 0 && <EmptyState message="No exams match this view." />}
         </div>
       </Card>
     </div>

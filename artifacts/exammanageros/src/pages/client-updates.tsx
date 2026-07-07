@@ -1,15 +1,15 @@
 import { Link } from "wouter";
 import { useStore } from "@/store/useStore";
 import { lookup } from "@/domain/derive";
-import { PageHeader, Card, Badge, PreviewBanner } from "@/components/shared";
+import { PageHeader, Card, Badge, PreviewBanner, EmptyState } from "@/components/shared";
 import { useToast } from "@/hooks/use-toast";
 
 const STATUS_TONE: Record<string, string> = {
-  "Draft": "bg-slate-100 text-slate-600 border-slate-200",
-  "Submitted for review": "bg-violet-50 text-violet-700 border-violet-200",
-  "Approved locally": "bg-teal-50 text-teal-700 border-teal-200",
-  "On hold": "bg-amber-50 text-amber-700 border-amber-200",
-  "Returned for edit": "bg-rose-50 text-rose-700 border-rose-200",
+  "Draft": "bg-white text-slate-600 border-slate-200",
+  "Submitted for review": "bg-violet-50/80 text-violet-700 border-violet-200",
+  "Approved locally": "bg-teal-50/80 text-teal-700 border-teal-200",
+  "On hold": "bg-amber-50/80 text-amber-700 border-amber-200",
+  "Returned for edit": "bg-rose-50/80 text-rose-700 border-rose-200",
 };
 
 export default function ClientUpdates() {
@@ -21,46 +21,46 @@ export default function ClientUpdates() {
   });
 
   return (
-    <div>
+    <div className="max-w-4xl mx-auto">
       <PageHeader
         title="Client Updates Review"
         subtitle="Human-in-the-loop review of client-facing status updates before they would sync to ComplianceConnect. Nothing is sent externally in this build."
       />
-      <PreviewBanner className="mb-6" />
+      <PreviewBanner className="mb-8" />
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {updates.length ? updates.map((c) => {
           const cli = lookup.client(s, c.clientId);
           const exam = lookup.exam(s, c.examId);
           return (
-            <Card key={c.id} className="p-5">
-              <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <Card key={c.id} className="p-8">
+              <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <Link href={`/exam/${c.examId}`} className="text-sm font-semibold text-slate-800 hover:text-sky-700">{cli?.name}</Link>
-                  <div className="text-xs text-slate-400">{exam?.examName}</div>
+                  <Link href={`/exam/${c.examId}`} className="text-lg font-bold text-purple-950 hover:text-purple-700 transition-colors">{cli?.name}</Link>
+                  <div className="text-[13px] font-medium text-slate-500 mt-1">{exam?.examName}</div>
                 </div>
                 <Badge className={STATUS_TONE[c.approvalStatus]}>{c.approvalStatus}</Badge>
               </div>
-              <div className="mb-3 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-lg bg-slate-50 px-3 py-2 text-xs"><span className="text-slate-400">Internal status:</span> <span className="font-medium text-slate-700">{c.internalStatus}</span></div>
-                <div className="rounded-lg bg-sky-50 px-3 py-2 text-xs"><span className="text-slate-400">Proposed client status:</span> <span className="font-medium text-sky-700">{c.proposedClientStatus}</span></div>
+              <div className="mb-6 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-xl border border-white bg-white/60 px-4 py-3 shadow-sm"><span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Internal status</span> <span className="font-bold text-slate-700">{c.internalStatus}</span></div>
+                <div className="rounded-xl border border-purple-100 bg-purple-50/50 px-4 py-3 shadow-sm"><span className="text-[11px] font-bold uppercase tracking-wider text-purple-400 block mb-1">Proposed client status</span> <span className="font-bold text-purple-900">{c.proposedClientStatus}</span></div>
               </div>
               <textarea defaultValue={c.draftMessage} onBlur={(e) => s.updateClientUpdate(c.id, { draftMessage: e.target.value })}
-                placeholder="Draft client-facing message…" rows={2}
-                className="mb-3 w-full rounded-lg border border-slate-200 p-2.5 text-sm outline-none focus:border-sky-300" />
-              <div className="flex flex-wrap gap-2">
-                <button onClick={() => { s.submitClientUpdate(c.id); toast({ title: "Submitted for review" }); }} className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Submit for review</button>
-                <button onClick={() => { s.approveClientUpdate(c.id); toast({ title: "Approved locally", description: "Ready for ComplianceConnect preview." }); }} className="rounded-lg bg-teal-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-teal-700">Approve for preview</button>
-                <button onClick={() => { s.holdClientUpdate(c.id); toast({ title: "On hold" }); }} className="rounded-lg px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100">Hold</button>
-                <button onClick={() => { s.returnClientUpdate(c.id); toast({ title: "Returned for edit" }); }} className="rounded-lg px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100">Return for edit</button>
+                placeholder="Draft client-facing message…" rows={3}
+                className="mb-6 w-full rounded-xl border border-white bg-white/60 p-4 text-[15px] font-medium text-purple-950 placeholder:text-slate-400 outline-none focus:border-purple-300 focus:bg-white focus:ring-4 focus:ring-purple-500/10 shadow-sm transition-all resize-y" />
+              <div className="flex flex-wrap items-center gap-3">
+                <button onClick={() => { s.submitClientUpdate(c.id); toast({ title: "Submitted for review" }); }} className="rounded-xl border border-purple-200 bg-white/80 px-4 py-2 text-[13px] font-bold text-purple-900 hover:bg-purple-50 hover:border-purple-300 shadow-sm transition-all">Submit for review</button>
+                <button onClick={() => { s.approveClientUpdate(c.id); toast({ title: "Approved locally", description: "Ready for ComplianceConnect preview." }); }} className="rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 px-4 py-2 text-[13px] font-bold text-white shadow-md shadow-purple-500/20 hover:from-purple-700 hover:to-pink-600 transition-all">Approve for preview</button>
+                <div className="h-6 w-px bg-purple-100/50 mx-1 hidden sm:block"></div>
+                <button onClick={() => { s.holdClientUpdate(c.id); toast({ title: "On hold" }); }} className="rounded-xl px-4 py-2 text-[13px] font-bold text-slate-600 hover:bg-white hover:text-purple-700 transition-all">Hold</button>
+                <button onClick={() => { s.returnClientUpdate(c.id); toast({ title: "Returned for edit" }); }} className="rounded-xl px-4 py-2 text-[13px] font-bold text-slate-600 hover:bg-white hover:text-purple-700 transition-all">Return for edit</button>
               </div>
-              <p className="mt-3 text-xs text-slate-400">
-                Requested by {c.requestedBy}{c.reviewer ? ` · reviewed by ${c.reviewer}` : ""}. Sync-ready preview — external
-                ComplianceConnect publishing is disabled in this build.
-              </p>
+              <div className="mt-6 pt-4 border-t border-purple-100/50 text-[12px] font-medium text-slate-400">
+                Requested by <span className="font-bold text-slate-500">{c.requestedBy}</span>{c.reviewer ? <><span className="text-slate-300 mx-1">•</span> Reviewed by <span className="font-bold text-slate-500">{c.reviewer}</span></> : ""} <span className="text-slate-300 mx-1">•</span> Sync-ready preview — external publishing is disabled.
+              </div>
             </Card>
           );
-        }) : <Card className="p-10 text-center text-sm text-slate-400">No client updates yet.</Card>}
+        }) : <EmptyState message="No client updates yet." />}
       </div>
     </div>
   );
