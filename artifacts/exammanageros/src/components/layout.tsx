@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/context/auth";
 import {
   LayoutDashboard, ListChecks, FileStack, ScrollText, ListTodo,
   MessageSquareText, FolderInput, BarChart3, Settings as SettingsIcon,
@@ -36,7 +37,7 @@ function SidebarContent({ current, onNavigate }: { current: string; onNavigate?:
         </div>
         <div className="mt-4 flex flex-col gap-2">
           <span className="inline-flex w-fit rounded-full bg-gradient-to-r from-purple-100 to-pink-100 px-2.5 py-1 text-[10px] font-semibold text-purple-800 border border-purple-200 shadow-sm">RoseOS Ecosystem App</span>
-          <span className="inline-flex w-fit rounded-full bg-white px-2.5 py-1 text-[10px] font-semibold text-pink-600 border border-pink-100 shadow-sm">Protected Preview</span>
+          <span className="inline-flex w-fit rounded-full bg-white px-2.5 py-1 text-[10px] font-semibold text-teal-700 border border-teal-100 shadow-sm">Operator workspace</span>
         </div>
       </div>
       <nav className="flex-1 space-y-1 overflow-y-auto px-4 relative z-10 pb-20">
@@ -64,8 +65,7 @@ function SidebarContent({ current, onNavigate }: { current: string; onNavigate?:
       </nav>
       <div className="px-5 py-5 border-t border-purple-100/50 relative z-10 bg-white/50 backdrop-blur-sm">
         <p className="text-[10px] leading-relaxed text-slate-500 font-medium">
-          Representative data. External sending, live CRM updates, ComplianceConnect publishing, Doc Collection sync,
-          and WorkDrive updates are disabled unless connected integrations are enabled.
+          Server-backed operator workspace. Integration adapters are feature-flagged and disabled until credentials are configured.
         </p>
       </div>
       <img src={floralCorner} alt="" className="absolute bottom-0 left-0 w-48 opacity-40 pointer-events-none mix-blend-multiply" />
@@ -76,6 +76,8 @@ function SidebarContent({ current, onNavigate }: { current: string; onNavigate?:
 export function Layout({ children }: { children: ReactNode }) {
   const [location] = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const initials = user?.name?.split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase() ?? "??";
 
   return (
     <div className="min-h-screen text-foreground relative selection:bg-purple-200 selection:text-purple-900">
@@ -120,11 +122,12 @@ export function Layout({ children }: { children: ReactNode }) {
             <span className="font-semibold text-purple-900">Exam Lifecycle Operations</span>
           </div>
           <div className="ml-auto flex items-center gap-3">
-            <span className="hidden rounded-full border border-pink-200 bg-pink-50/80 px-3 py-1 text-[11px] font-bold text-pink-700 sm:inline shadow-sm backdrop-blur-md">
-              External sending disabled
+            <span className="hidden rounded-full border border-purple-200 bg-purple-50/80 px-3 py-1 text-[11px] font-bold text-purple-700 sm:inline shadow-sm backdrop-blur-md">
+              {user?.role ?? "operator"}
             </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-sm font-bold text-white shadow-md shadow-pink-500/20 ring-2 ring-white">
-              RT
+            <button type="button" onClick={() => void logout()} className="hidden sm:inline text-[11px] font-semibold text-slate-500 hover:text-purple-700">Sign out</button>
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-sm font-bold text-white shadow-md shadow-pink-500/20 ring-2 ring-white" title={user?.name}>
+              {initials}
             </div>
           </div>
         </header>

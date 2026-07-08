@@ -73,8 +73,8 @@ export default function ExamDetail() {
   const audit = s.auditEvents.filter((a) => a.recordId === exam.id || apps.some((ap) => ap.id === a.recordId) || a.recordId === exam.id);
   const flags = examAutomationFlags(exam, s);
 
-  const setStatus = (status: string) => {
-    const res = s.setExamStatus(exam.id, status as typeof exam.status);
+  const setStatus = async (status: string) => {
+    const res = await s.setExamStatus(exam.id, status as typeof exam.status);
     if (!res.ok && res.warning) toast({ title: "Eligibility required", description: res.warning, variant: "destructive" });
     else toast({ title: "Status updated", description: `Now: ${status}` });
   };

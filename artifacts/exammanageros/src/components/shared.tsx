@@ -80,9 +80,8 @@ export function PreviewBanner({ className }: { className?: string }) {
     <div className={cn("flex items-start gap-3 rounded-2xl border border-pink-200 bg-gradient-to-r from-pink-50/80 to-purple-50/80 px-5 py-4 text-sm text-pink-900 shadow-sm backdrop-blur-md", className)}>
       <ShieldCheck className="h-5 w-5 shrink-0 mt-0.5 text-pink-500" />
       <p className="leading-relaxed">
-        <span className="font-bold">Protected Preview.</span> External sending, live CRM/Zoho updates, ComplianceConnect
-        publishing, Doc Collection sync, and WorkDrive updates are disabled in this build. Actions update local
-        representative data only.
+        <span className="font-bold">Integration notice.</span> CRM/Zoho, ComplianceConnect publishing, Doc Collection sync,
+        and WorkDrive adapters are feature-flagged off until Rose-approved credentials are configured on the server.
       </p>
     </div>
   );
